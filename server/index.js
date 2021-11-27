@@ -7,11 +7,12 @@ const routes = require('./controllers');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// MongoDB Session Store stuff
 const db = require('./config/connection');
+
+// MongoDB Express Session Store stuff
+// It's now an option to use req.session
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI || 'mongodb://localhost/mapme',
   collection: 'mySessions',
@@ -43,6 +44,7 @@ const gqlServer = new ApolloServer({
 
 gqlServer.applyMiddleware({ app });
 
+// Express Stuff
 app.use(log('dev'));
 
 app.use(express.urlencoded({ extended: false }));

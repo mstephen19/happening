@@ -24,6 +24,12 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  events: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Event',
+    },
+  ],
 });
 
 UserSchema.pre('save', async function (next) {

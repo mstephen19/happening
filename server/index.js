@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 const db = require('./config/connection');
+const { authMiddleware } = require('./utils/auth');
 
 // MongoDB Express Session Store stuff
 // It's now an option to use req.session
@@ -40,6 +41,7 @@ const { typeDefs, resolvers } = require('./schemas');
 const gqlServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleware,
 });
 
 gqlServer.applyMiddleware({ app });

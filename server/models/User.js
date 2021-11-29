@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
   email: {
@@ -38,6 +39,10 @@ UserSchema.pre('save', async function (next) {
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
     if (!this.password.match(regex)) {
       return next(new Error('Password failed validation'));
+    }
+
+    if (/\s/g.test(this.username)) {
+      return next(new Error('Username must not contain spaces!'));
     }
 
     const salt = await bcrypt.genSalt(10);

@@ -22,13 +22,16 @@ const typeDefs = gql`
     events: [Event]
   }
 
+  type Auth {
+    token: ID!
+    profile: User
+  }
+
   type Query {
     users: [User]!
     user(userId: ID!): User
     me: User
   }
-
-  # We will need type Auth after setting up JWT
 
   type Mutation {
     newUser(email: String!, username: String!, password: String!): User

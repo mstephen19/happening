@@ -37,7 +37,9 @@ export default function App() {
       <Router>
         <Route exact path='/' component={Main} />
         <Route component={NotFound} />
-        <Route exact path='/createEvent' component={CreateEventForm} />
+{/* Event form is temporary for creation */}
+        <Route exact path='/createEvent' component={CreateEventForm} /> 
+
       </Router>
     </ApolloProvider>
   );

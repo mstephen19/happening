@@ -2,7 +2,9 @@
 const { Event, User } = require('../models');
 
 const resolvers = {
-  Query: {},
+  Query: {
+    
+  },
   Mutation: {},
 };
 

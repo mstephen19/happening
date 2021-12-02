@@ -6,7 +6,7 @@ const typeDefs = gql`
     creator: User
     name: String
     body: String
-    creation_date: Data
+    creation_date: Date
     location: String
     address: String
     attending: [User]
@@ -23,9 +23,15 @@ const typeDefs = gql`
     events: [Event]
   }
 
+  # This is what we return from our newUser and login mutations
   type Auth {
     token: ID!
     user: User
+  }
+
+  # This is what Mongo returns when we delete a document
+  type DeletedCount {
+    deletedCount: Int
   }
 
   type Query {
@@ -35,7 +41,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    newUser(email: String!, username: String!, password: String!): User
+    newUser(email: String!, username: String!, password: String!): Auth
     login(username: String!, password: String!): Auth
     newEvent(
       name: String!
@@ -43,6 +49,7 @@ const typeDefs = gql`
       location: String!
       address: String!
     ): Event
+    deleteEvent(id: ID!): DeletedCount
     attendEvent(id: ID!): Event
     unAttendEvent(id: ID!): Event
   }

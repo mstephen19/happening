@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
+import CreateEventForm from './components/createEventModal/createEventModal';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -36,6 +37,7 @@ export default function App() {
       <Router>
         <Route exact path='/' component={Main} />
         <Route component={NotFound} />
+        <Route exact path='/createEvent' component={CreateEventForm} />
       </Router>
     </ApolloProvider>
   );

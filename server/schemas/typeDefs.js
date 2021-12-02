@@ -13,6 +13,8 @@ const typeDefs = gql`
     attending: [User]
   }
 
+  scalar Date
+
   type User {
     _id: ID
     email: String
@@ -24,17 +26,18 @@ const typeDefs = gql`
 
   type Auth {
     token: ID!
-    profile: User
+    user: User
   }
 
   type Query {
     users: [User]!
-    user(userId: ID!): User
+    user(username: String!): User
     me: User
   }
 
   type Mutation {
     newUser(email: String!, username: String!, password: String!): User
+    login:(username: String!, password: String!): Auth
   }
 `;
 

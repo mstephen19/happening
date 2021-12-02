@@ -35,10 +35,15 @@ const resolvers = {
   },
   Mutation: {
     newUser: async (parent, args, context) => {
-      const user = await User.create(args);
-      const token = signToken(user);
+      try {
+        console.log(args);
+        const user = await User.create(args);
+        const token = signToken(user);
 
-      return { token, user };
+        return { token, user };
+      } catch (err) {
+        console.error(err);
+      }
     },
     login: async (parent, { username, password }, context) => {
       const user = await User.findOne({ username });
@@ -61,6 +66,19 @@ const resolvers = {
       if (!newEvent) return new Error('Failed to create event.');
 
       return newEvent;
+    },
+    deleteEvent: async (parent, args, { user }) => {
+      if (!user)
+        return new AuthenticationError("You shouldn't be able to do this...");
+
+      const deletedEvent = await Event.deleteOne({
+        _id: args.id,
+        creator: user._id,
+      });
+
+      if (!deletedEvent) return new Error('Failed to delete event.');
+
+      return deletedEvent;
     },
     attendEvent: async (parent, { id }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');

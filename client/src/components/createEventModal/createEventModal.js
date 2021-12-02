@@ -4,12 +4,10 @@ import { Label, Input, Textarea, } from "@rebass/forms";
 import { Box } from "rebass";
 import { useMutation } from "@apollo/client";
 import { CREATE_EVENT } from "../../utils/mutations";
-import Auth from '../../utils/auth';
+
 
 export default function CreateEventForm() {
   const [show, setShow] = useState(false);
-
-  const { user } = Auth.getProfile();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -31,7 +29,7 @@ export default function CreateEventForm() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submit entered')
-    console.log(user);
+   
     try {
         const { data } = await createEvent({
           variables: {
@@ -39,7 +37,6 @@ export default function CreateEventForm() {
             address: formValues.address,
             location: formValues.location,
             body: formValues.body,
-            creator: user
           }
         });
 

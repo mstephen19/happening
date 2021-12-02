@@ -2,6 +2,10 @@ const { AuthenticationError } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
 // Import models
+
+const { Types } = require('mongoose');
+// ex. { $push: { exercises: Types.ObjectId(_id) } },
+
 const { Event, User } = require('../models');
 const { signToken } = require('../utils/auth');
 
@@ -23,6 +27,11 @@ const resolvers = {
 
       return theUser;
     },
+    users: async () => {
+      const users = await User.find({});
+
+      return users;
+    },
   },
   Mutation: {
     newUser: async (parent, args, context) => {
@@ -43,6 +52,37 @@ const resolvers = {
 
       const token = signToken(user);
       return { token, user };
+    },
+    newEvent: async (parent, args, { user }) => {
+      if (!user) return new AuthenticationError('Must be logged in!');
+
+      const newEvent = await Event.create({ creator: user._id, ...args });
+
+      if (!newEvent) return new Error('Failed to create event.');
+
+      return newEvent;
+    },
+    attendEvent: async (parent, { id }, { user }) => {
+      if (!user) return new AuthenticationError('Must be logged in!');
+
+      const withNewUser = await Event.findOneAndUpdate(
+        { _id: id },
+        { $push: { attending: Types.ObjectId(user._id) } },
+        { new: true }
+      );
+
+      return withNewUser;
+    },
+    unAttendEvent: async (parent, { id }, { user }) => {
+      if (!user) return new AuthenticationError('Must be logged in!');
+
+      const withNewUser = await Event.findOneAndUpdate(
+        { _id: id },
+        { $pullAll: { attending: { _id: Types.ObjectId(user._id) } } },
+        { new: true }
+      );
+
+      return withNewUser;
     },
   },
   // Define custom type of Date

@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const log = require('morgan');
 const routes = require('./controllers');
+const compression = require('compression')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -46,6 +47,7 @@ const gqlServer = new ApolloServer({
 
 gqlServer.applyMiddleware({ app });
 
+app.use(compression())
 // Express Stuff
 app.use(log('dev'));
 

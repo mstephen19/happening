@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function LoginSignUpModal() {
+export default function SidebarContainer() {
   return (
     <div>
       

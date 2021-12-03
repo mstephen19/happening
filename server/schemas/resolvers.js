@@ -13,94 +13,143 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (!context.user) return new AuthenticationError('Not logged in!');
+      try {
+        const me = await User.findOne({ _id: context.user._id });
 
-      const me = await User.findOne({ _id: context.user._id });
+        if (!me) return new Error('User not found in database.');
 
-      if (!me) return new Error('User not found in database.');
-
-      return me;
+        return me;
+      } catch (err) {
+        return err;
+      }
     },
     user: async (parent, { username }) => {
-      const theUser = await User.findOne({ username });
+      try {
+        const theUser = await User.findOne({ username }).populate('events');
 
-      if (!theUser) return new Error('User with this username not found.');
+        if (!theUser) return new Error('User with this username not found.');
 
-      return theUser;
+        return theUser;
+      } catch (err) {
+        return err;
+      }
     },
     users: async () => {
-      const users = await User.find({});
+      try {
+        const users = await User.find({}).populate('events');
 
-      return users;
+        return users;
+      } catch (err) {
+        return err;
+      }
+    },
+    event: async (parent, { id }) => {
+      try {
+        const event = await Event.findById(id).populate('attending');
+
+        if (!event) return new Error('Event not found.');
+
+        return event;
+      } catch (err) {
+        return err;
+      }
+    },
+    events: async (parent, { location }) => {
+      try {
+        // const regex = new RegExp(location, i);
+
+        const events = await Event.find({ location }).populate('attending');
+
+        if (!events) return new Error('Unable to find events');
+
+        return events;
+      } catch (err) {
+        return err;
+      }
     },
   },
   Mutation: {
     newUser: async (parent, args, context) => {
       try {
-        console.log(args);
         const user = await User.create(args);
         const token = signToken(user);
 
         return { token, user };
       } catch (err) {
-        console.error(err);
+        return err;
       }
     },
     login: async (parent, { username, password }, context) => {
-      const user = await User.findOne({ username });
+      try {
+        const user = await User.findOne({ username });
 
-      if (!user)
-        return new AuthenticationError('No user with this username found.');
+        if (!user)
+          return new AuthenticationError('No user with this username found.');
 
-      const correctPass = user.checkPassword(password);
+        const correctPass = user.checkPassword(password);
 
-      if (!correctPass) return new AuthenticationError('Incorrect password.');
+        if (!correctPass) return new AuthenticationError('Incorrect password.');
 
-      const token = signToken(user);
-      return { token, user };
+        const token = signToken(user);
+        return { token, user };
+      } catch (err) {
+        return err;
+      }
     },
-    newEvent: async (parent, args, { user }) => {
+    newEvent: async (parent, { name, body, location, address }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');
+      try {
+        const newEvent = await Event.create({ creator: user._id, ...args });
 
-      const newEvent = await Event.create({ creator: user._id, ...args });
+        if (!newEvent) return new Error('Failed to create event.');
 
-      if (!newEvent) return new Error('Failed to create event.');
-
-      return newEvent;
+        return newEvent;
+      } catch (err) {}
     },
     deleteEvent: async (parent, args, { user }) => {
       if (!user)
         return new AuthenticationError("You shouldn't be able to do this...");
 
-      const deletedEvent = await Event.deleteOne({
-        _id: args.id,
-        creator: user._id,
-      });
+      try {
+        const deletedEvent = await Event.deleteOne({
+          _id: args.id,
+          creator: user._id,
+        });
 
-      if (!deletedEvent) return new Error('Failed to delete event.');
+        if (!deletedEvent) return new Error('Failed to delete event.');
 
-      return deletedEvent;
+        return deletedEvent;
+      } catch (err) {
+        return err;
+      }
     },
     attendEvent: async (parent, { id }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');
+      try {
+        const withNewUser = await Event.findOneAndUpdate(
+          { _id: id },
+          { $push: { attending: Types.ObjectId(user._id) } },
+          { new: true }
+        );
 
-      const withNewUser = await Event.findOneAndUpdate(
-        { _id: id },
-        { $push: { attending: Types.ObjectId(user._id) } },
-        { new: true }
-      );
-
-      return withNewUser;
+        return withNewUser;
+      } catch (err) {
+        return err;
+      }
     },
     unAttendEvent: async (parent, { id }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');
+      try {
+        const deleteUser = await Event.findOneAndUpdate(
+          { _id: id },
+          { $pullAll: { attending: { _id: Types.ObjectId(user._id) } } },
+          { new: true }
+        );
 
-      const withNewUser = await Event.findOneAndUpdate(
-        { _id: id },
-        { $pullAll: { attending: { _id: Types.ObjectId(user._id) } } },
-        { new: true }
-      );
-
-      return withNewUser;
+        return deleteUser;
+      } catch (err) {
+        return err;
+      }
     },
   },
   // Define custom type of Date

@@ -41,7 +41,6 @@ export default function App() {
           <NavBarContainer />
           <Switch>
             <Route exact path='/' component={Main} />
-            {/* Event form is temporary for creation */}
             <Route component={NotFound} />
           </Switch>
         </Router>

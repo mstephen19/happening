@@ -7,6 +7,7 @@ import { GET_EVENTS_BY_LOCATION } from '../../utils/queries';
 import Loading from '../Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import Sidebar from './Sidebar/Sidebar';
 
 export default function Map() {
   const state = useSelector((store) => store);
@@ -84,6 +85,11 @@ export default function Map() {
             );
           })}
       </ReactMapGL>
+      <Sidebar>
+        <div style={{ marginTop: '100px' }}>
+          <h1>Test</h1>
+        </div>
+      </Sidebar>
     </div>
   );
 }

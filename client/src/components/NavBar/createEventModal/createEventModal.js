@@ -15,6 +15,19 @@ export default function CreateEventForm() {
     body: '',
   });
 
+  const [successText, setSuccessText] = useState(false);
+
+  const Success = () => {
+    return (
+          <Box px={1} py={1} ml='auto' color='green'>
+            <p>Success</p>
+          </Box>
+    )
+  };
+
+
+
+
   const handleFormChange = (e) => {
     const currentState = { ...formValues };
     currentState[e.target.name] = e.target.value;
@@ -41,7 +54,7 @@ export default function CreateEventForm() {
         location: '',
         body: '',
       });
-      alert('Success');
+      setSuccessText(true);
     } catch (err) {
       alert('Failed to create event');
     }
@@ -114,6 +127,9 @@ export default function CreateEventForm() {
       <Box px={2} py={1} ml='auto'>
         <Button type='submit'>Submit Event</Button>
       </Box>
+
+      { successText ? <Success /> : null }
+      
     </Box>
   );
 }

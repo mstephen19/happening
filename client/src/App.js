@@ -6,7 +6,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
@@ -38,10 +38,12 @@ export default function App() {
     <ApolloProvider client={client}>
       <Router>
         <NavBarContainer />
-        <Route exact path='/' component={Main} />
-        {/* Event form is temporary for creation */}
-        <Route exact path='/createEvent' component={CreateEventForm} />
-        <Route component={NotFound} />
+        <Switch>
+          <Route exact path='/' component={Main} />
+          {/* Event form is temporary for creation */}
+          <Route exact path='/createEvent' component={CreateEventForm} />
+          <Route component={NotFound} />
+        </Switch>
       </Router>
     </ApolloProvider>
   );

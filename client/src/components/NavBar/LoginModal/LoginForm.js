@@ -37,12 +37,12 @@ export default function LoginForm() {
 
   return (
     <Box as='form' onSubmit={handleSubmit} onChange={handleChange} py={3}>
-      <Flex mx={-2} mb={3}>
-        <Box width={1 / 2} px={2}>
+      
+        <Box width={1} px={2}>
           <Label htmlFor='username'>Username</Label>
           <Input id='username' name='username' placeholder='NuggetMaster69' />
         </Box>
-        <Box width={1 / 2} px={2}>
+        <Box width={1} px={2} py={1}>
           <Label htmlFor='password'>Password</Label>
           <Input
             id='password'
@@ -51,10 +51,10 @@ export default function LoginForm() {
             type='password'
           />
         </Box>
-        <Box px={2} ml='auto'>
-          <Button>Submit</Button>
+        <Box px={2} py={1} ml='auto'>
+          <Button type="submit" variant='primary'>Submit</Button>
         </Box>
-      </Flex>
+      
     </Box>
   );
 }

@@ -8,9 +8,11 @@ import {
   Typography,
   CardHeader,
   Avatar,
+  CardActions,
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { ADD_TO_MY_EVENTS} from '../../utils/redux/actions';
+import { idbPromise } from '../../utils/helpers';
 
 
 function EventCard(event) {
@@ -25,8 +27,6 @@ function EventCard(event) {
     creation_date,
     location,
     address,
-    latitude,
-    logitude,
     attending,
   } = event;
 
@@ -41,7 +41,16 @@ function EventCard(event) {
         type: ADD_TO_MY_EVENTS,
         event: { ...event }
       })
+      idbPromise('attending-events', 'put', { ...event });
     }
+  }
+
+  const peopleAttending = () => {
+    let people = '';
+    attending.forEach(element => {
+      people += `${element}, `
+    });
+    return people;
   }
 
   return (
@@ -56,10 +65,22 @@ function EventCard(event) {
         subheader={location}
       />
       <CardContent>
-        <Typography sx={{fontSize: 14}} color="text.secondary">
+        <Typography sx={{fontSize: 14}} color="text.primary">
           {body}
         </Typography>
+        <Typography sx={{fontSize: 12}} color="text.secondary">
+          {address}
+        </Typography>
+        <Typography sx={{fontSize: 12}} color="text.secondary">
+          {peopleAttending}
+        </Typography>
       </CardContent>
+      <CardActions>
+        <Button size="small" onClick={attendEvent}>Attend Event</Button>
+        <Typography sx={{ fontSize: 10 }} color="text.secondary">
+          {creation_date}
+        </Typography>
+      </CardActions>
     </Card>
   );
 }

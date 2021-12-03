@@ -13,7 +13,7 @@ const events = [{
 
 function EventList(props = events) {
   
-  return <EventCard event={props[0]}/>;
+  return <EventCard event={events[0]}/>;
 }
 
 export default EventList;

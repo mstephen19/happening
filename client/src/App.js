@@ -44,8 +44,6 @@ export default function App() {
           <Switch>
             <Route exact path='/' component={Main} />
             <Route exact path='/dashboard' component={Dashboard} />
-            {/* Event form is temporary for creation */}
-            {/* <Route exact path='/createEvent' component={CreateEventForm} /> */}
             <Route component={NotFound} />
           </Switch>
         </Router>

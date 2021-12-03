@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Card, CardActions, CardContent, Button, Typography } from '@mui/material';
+import { Box, Card, CardActions, CardContent, Button, Typography, CardHeader, Avatar } from '@mui/material';
+import {red} from '@mui/material/colors'
 
 function EventCard(event) {
   const state = useSelector((state) => state);
@@ -20,11 +21,13 @@ function EventCard(event) {
   } = event;
 
   return (
-    <Card sx={{minWidth: 350}}>
+    <Card sx={{ minWidth: 350 }}>
+      <CardHeader avatar={
+        <Avatar sx={{ bgcolor: red[500] }} arial-label="event">
+          {creator.substring(0,1)}
+        </Avatar>
+      }/>
       <CardContent>
-        <Typography variant="h5" component="div">
-          {name}
-        </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary">
           {body}
         </Typography>

@@ -6,6 +6,7 @@ export default function NavBar({
   onLogOut,
   onLogIn,
   onCreateAccount,
+  onEventModal
 }) {
   return (
     <Box
@@ -26,6 +27,9 @@ export default function NavBar({
         <>
           <Button variant='secondary' mr={2} onClick={onLogOut}>
             Log Out
+          </Button>
+          <Button variant="primary" mr={2} onClick={onEventModal}>
+            Create Event
           </Button>
         </>
       ) : (

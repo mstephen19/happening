@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button} from "react-bootstrap";
 import { Label, Input, Textarea } from "@rebass/forms";
 import { Box } from "rebass";
 import { useMutation } from "@apollo/client";
 import { CREATE_EVENT } from "../../../utils/mutations";
 
 export default function CreateEventForm() {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const [createEvent, { error, loading, data }] = useMutation(CREATE_EVENT);
   const [formValues, setFormValues] = useState({
@@ -45,18 +41,13 @@ export default function CreateEventForm() {
         location: "",
         body: "",
       });
+      alert('Success');
     } catch (err) {
       alert("Failed to create event");
     }
   };
 
   return (
-    <div>
-      <Button variant='primary' onClick={handleShow}>
-        Create Event
-      </Button>
-
-      <Modal size='lg' centered show={show} onHide={handleClose}>
         <Box
           as='form'
           py={2}
@@ -69,6 +60,7 @@ export default function CreateEventForm() {
               id='eventName'
               name='name'
               placeholder='Concert at the park'
+              value={formValues.name}
             />
           </Box>
 
@@ -78,6 +70,7 @@ export default function CreateEventForm() {
               id='eventLocation'
               name='address'
               placeholder='532 S Olive St'
+              value={formValues.address}
             />
           </Box>
 
@@ -87,6 +80,7 @@ export default function CreateEventForm() {
               id='eventLocation'
               name='location'
               placeholder='Los Angeles, CA 90013'
+              value={formValues.location}
             />
           </Box>
 
@@ -97,6 +91,7 @@ export default function CreateEventForm() {
               id='eventBody'
               name='body'
               placeholder='Enter event description. (Provide links if necessary)'
+              value={formValues.body}
             />
           </Box>
 
@@ -104,7 +99,6 @@ export default function CreateEventForm() {
             <Button type='submit'>Submit Event</Button>
           </Box>
         </Box>
-      </Modal>
-    </div>
+
   );
 }

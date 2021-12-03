@@ -25,3 +25,15 @@ export const LOG_IN = gql`
     }
   }
 `;
+
+export const CREATE_EVENT = gql`
+  mutation newEvent($name: String!, $body: String!, $location: String!, $address: String!) {
+    newEvent(name: $name, body: $body, location: $location, address: $address) {
+       _id
+       name
+       body
+       location
+       address
+    }
+  }
+`

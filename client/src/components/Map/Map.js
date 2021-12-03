@@ -4,6 +4,7 @@ import debounce from '../../utils/debounce';
 import { useSelector } from 'react-redux';
 import { useLazyQuery } from '@apollo/client';
 import { GET_EVENTS_BY_LOCATION } from '../../utils/queries';
+import Loading from '../Loading';
 
 export default function Map() {
   const state = useSelector((store) => store.search);
@@ -14,11 +15,6 @@ export default function Map() {
       variables: { location: state },
     }
   );
-  // loading && console.log('loading');
-
-  useEffect(() => {
-    makeQuery();
-  }, [state]);
 
   let [viewport, setViewport] = useState({
     latitude: 37.7577,
@@ -28,6 +24,23 @@ export default function Map() {
     height: window.innerHeight,
     pitch: 20,
   });
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      await makeQuery();
+      if (isMounted) {
+        setViewport((prev) => ({
+          ...prev,
+          latitude: data.events[0].latitude,
+          longitude: data.events[0].longitude,
+        }));
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, [state, data]);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -42,6 +55,7 @@ export default function Map() {
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
+      {loading && <Loading />}
       <ReactMapGL
         {...viewport}
         onViewportChange={(newView) => setViewport(newView)}

@@ -12,7 +12,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 
-
 import NavBarContainer from './components/NavBar/NavBarContainer';
 
 const httpLink = createHttpLink({
@@ -43,7 +42,6 @@ export default function App() {
           <Switch>
             <Route exact path='/' component={Main} />
             {/* Event form is temporary for creation */}
-            <Route exact path='/createEvent' component={CreateEventForm} />
             <Route component={NotFound} />
           </Switch>
         </Router>

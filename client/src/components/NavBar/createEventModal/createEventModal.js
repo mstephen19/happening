@@ -77,7 +77,7 @@ export default function CreateEventForm(props) {
           </Box>
 
           <Box width={1} px={2} py={1}>
-            <Label htmlFor='address'>Event Location</Label>
+            <Label htmlFor='address'>Event Street Address</Label>
             <Input
               id='eventLocation'
               name='address'
@@ -87,7 +87,7 @@ export default function CreateEventForm(props) {
           </Box>
 
           <Box width={1} px={2} py={1}>
-            <Label htmlFor='location'>Event Location</Label>
+            <Label htmlFor='location'>Event City, State, Zip</Label>
             <Input
               id='eventLocation'
               name='location'

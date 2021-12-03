@@ -64,6 +64,10 @@ export default function CreateUserForm() {
             type='password'
           />
         </Box>
+        <p>
+          Must include at least 8 characters, 1 uppercase character, 1 lowercase
+          character, 1 number, and 1 symbol.
+        </p>
         <Box px={2} ml='auto'>
           <Button>Submit</Button>
         </Box>

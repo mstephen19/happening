@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
-import CreateEventForm from './components/NavBar/createEventModal/createEventModal';
+
 
 import NavBarContainer from './components/NavBar/NavBarContainer';
 

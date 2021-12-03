@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Label } from '@rebass/forms';
-import { Box, Button, Flex } from 'rebass';
+import { Box, Button } from 'rebass';
 
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../../utils/mutations';
@@ -69,7 +69,7 @@ export default function CreateUserForm() {
           character, 1 number, and 1 symbol.
         </p>
         <Box px={2} py={1} ml='auto'>
-          <Button>Submit</Button>
+          <Button variant='primary'>Submit</Button>
         </Box>
      
     </Box>

@@ -52,7 +52,7 @@ export default function LoginForm() {
           />
         </Box>
         <Box px={2} py={1} ml='auto'>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" variant='primary'>Submit</Button>
         </Box>
       
     </Box>

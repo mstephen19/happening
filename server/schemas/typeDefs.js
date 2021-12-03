@@ -9,6 +9,8 @@ const typeDefs = gql`
     creation_date: Date
     location: String
     address: String
+    latitude: Float
+    longitude: Float
     attending: [User]
   }
 

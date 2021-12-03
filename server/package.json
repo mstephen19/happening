@@ -31,7 +31,8 @@
     "graphql": "^16.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-geocoder": "^3.28.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

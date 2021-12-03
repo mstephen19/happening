@@ -4,6 +4,7 @@ import EventCard from "../EventCard";
 
 
 const events = [{
+  creator: 'Isaac',
   name: 'San Francisco Zoo & Gardens',
   body: `The San Francisco Zoo is designed with the underlying belief that nature-focused interaction leads to conservation action. Learning about animals here inspires visitors to care for all wildlife.`,
   location: 'San Francisco, CA, USA',

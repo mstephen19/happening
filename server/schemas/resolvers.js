@@ -99,12 +99,20 @@ const resolvers = {
     newEvent: async (parent, { name, body, location, address }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
-        const newEvent = await Event.create({ creator: user._id, ...args });
+        const newEvent = await Event.create({
+          creator: user._id,
+          name,
+          body,
+          location,
+          address,
+        });
 
         if (!newEvent) return new Error('Failed to create event.');
 
         return newEvent;
-      } catch (err) {}
+      } catch (err) {
+        return err;
+      }
     },
     deleteEvent: async (parent, args, { user }) => {
       if (!user)

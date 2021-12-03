@@ -5,21 +5,23 @@ import { useSelector } from 'react-redux';
 import { useLazyQuery } from '@apollo/client';
 import { GET_EVENTS_BY_LOCATION } from '../../utils/queries';
 import Loading from '../Loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function Map() {
-  const state = useSelector((store) => store.search);
+  const state = useSelector((store) => store);
   // console.log(state);
   const [makeQuery, { loading, data, error }] = useLazyQuery(
     GET_EVENTS_BY_LOCATION,
     {
-      variables: { location: state },
+      variables: { location: state.search },
     }
   );
 
   let [viewport, setViewport] = useState({
     latitude: 37.7577,
     longitude: -122.4376,
-    zoom: 8,
+    zoom: 10,
     width: window.innerWidth,
     height: window.innerHeight,
     pitch: 20,
@@ -32,8 +34,8 @@ export default function Map() {
       if (isMounted) {
         setViewport((prev) => ({
           ...prev,
-          latitude: data.events[0].latitude,
-          longitude: data.events[0].longitude,
+          latitude: state.latitude,
+          longitude: state.longitude,
         }));
       }
     })();
@@ -71,8 +73,13 @@ export default function Map() {
                 key={event._id}
                 latitude={event.latitude}
                 longitude={event.longitude}
+                offsetTop={-(viewport.zoom * 5) / 2}
               >
-                <p style={{ color: 'white' }}>This will be a pin</p>
+                <FontAwesomeIcon
+                  icon={faMapMarkerAlt}
+                  color='white'
+                  size='2x'
+                />
               </Marker>
             );
           })}

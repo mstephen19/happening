@@ -12,7 +12,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 
-
 import NavBarContainer from './components/NavBar/NavBarContainer';
 
 const httpLink = createHttpLink({

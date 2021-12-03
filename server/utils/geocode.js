@@ -1,6 +1,6 @@
 require('dotenv').config();
 const NodeGeocoder = require('node-geocoder');
-require('dotenv').config();
+
 
 const options = {
   provider: 'mapquest',

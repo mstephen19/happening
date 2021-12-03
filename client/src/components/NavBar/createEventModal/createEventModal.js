@@ -5,7 +5,7 @@ import { Box } from "rebass";
 import { useMutation } from "@apollo/client";
 import { CREATE_EVENT } from "../../../utils/mutations";
 
-export default function CreateEventForm() {
+export default function CreateEventForm(props) {
 
   const [createEvent, { error, loading, data }] = useMutation(CREATE_EVENT);
   const [formValues, setFormValues] = useState({
@@ -14,6 +14,16 @@ export default function CreateEventForm() {
     location: "",
     body: "",
   });
+
+  const [successText, setSuccessText] = useState(false)
+
+  const Success = () => {
+    return (
+          <Box px={1} py={1} ml='auto' color='green'>
+            <p>Success</p>
+          </Box>
+    )
+  }
 
   const handleFormChange = (e) => {
     const currentState = { ...formValues };
@@ -41,7 +51,9 @@ export default function CreateEventForm() {
         location: "",
         body: "",
       });
-      alert('Success');
+      
+      setSuccessText(true);
+
     } catch (err) {
       alert("Failed to create event");
     }
@@ -98,6 +110,9 @@ export default function CreateEventForm() {
           <Box px={2} py={1} ml='auto'>
             <Button type='submit'>Submit Event</Button>
           </Box>
+
+          { successText ? <Success /> : null }
+
         </Box>
 
   );

@@ -26,7 +26,7 @@ export default function NavBar({
         <>
           <Button variant='secondary' mr={2} onClick={onLogOut}>
             Log Out
-          </Button>{' '}
+          </Button>
         </>
       ) : (
         <>

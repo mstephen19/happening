@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const geocodeString = require('../utils/geocode');
 
 const EventSchema = new Schema({
   creator: {
@@ -26,12 +27,29 @@ const EventSchema = new Schema({
     type: String,
     required: true,
   },
+  latitude: {
+    type: Number,
+  },
+  longitude: {
+    type: Number,
+  },
   attending: [
     {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
   ],
+});
+
+EventSchema.pre('save', async function (next) {
+  try {
+    const { latitude, longitude } = geocodeString(this.address);
+    this.latitude = latitude;
+    this.longitude = longitude;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 });
 
 const Event = mongoose.model('Event', EventSchema);

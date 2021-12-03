@@ -94,7 +94,7 @@ const resolvers = {
         return err;
       }
     },
-    newEvent: async (parent, args, { user }) => {
+    newEvent: async (parent, { name, body, location, address }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const newEvent = await Event.create({ creator: user._id, ...args });

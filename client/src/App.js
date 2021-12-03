@@ -13,7 +13,6 @@ import Main from './pages/Main';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 
-
 import NavBarContainer from './components/NavBar/NavBarContainer';
 
 const httpLink = createHttpLink({

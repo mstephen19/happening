@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Button} from "react-bootstrap";
-import { Label, Input, Textarea } from "@rebass/forms";
-import { Box } from "rebass";
-import { useMutation } from "@apollo/client";
-import { CREATE_EVENT } from "../../../utils/mutations";
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { Label, Input, Textarea } from '@rebass/forms';
+import { Box } from 'rebass';
+import { useMutation } from '@apollo/client';
+import { CREATE_EVENT } from '../../../utils/mutations';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 export default function CreateEventForm() {
-
   const [createEvent, { error, loading, data }] = useMutation(CREATE_EVENT);
   const [formValues, setFormValues] = useState({
-    name: "",
-    address: "",
-    location: "",
-    body: "",
+    name: '',
+    address: '',
+    location: '',
+    body: '',
   });
 
   const handleFormChange = (e) => {
@@ -23,82 +23,97 @@ export default function CreateEventForm() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submit entered");
+    console.log('Form submit entered');
 
     try {
       const { data } = await createEvent({
         variables: {
           name: formValues.name,
-          address: formValues.address,
+          address: `${formValues.address} ${formValues.location}`,
           location: formValues.location,
           body: formValues.body,
         },
       });
 
       setFormValues({
-        name: "",
-        address: "",
-        location: "",
-        body: "",
+        name: '',
+        address: '',
+        location: '',
+        body: '',
       });
       alert('Success');
     } catch (err) {
-      alert("Failed to create event");
+      alert('Failed to create event');
     }
   };
 
   return (
-        <Box
-          as='form'
-          py={2}
-          onChange={handleFormChange}
-          onSubmit={handleFormSubmit}
-        >
-          <Box width={1} px={2}>
-            <Label htmlFor='name'>Event Name</Label>
-            <Input
-              id='eventName'
-              name='name'
-              placeholder='Concert at the park'
-              value={formValues.name}
-            />
-          </Box>
+    <Box
+      as='form'
+      py={2}
+      onChange={handleFormChange}
+      onSubmit={handleFormSubmit}
+    >
+      <Box width={1} px={2}>
+        <Label htmlFor='name'>Event Name</Label>
+        <Input
+          id='eventName'
+          name='name'
+          placeholder='Concert at the park'
+          value={formValues.name}
+        />
+      </Box>
 
-          <Box width={1} px={2} py={1}>
-            <Label htmlFor='address'>Event Location</Label>
-            <Input
-              id='eventLocation'
-              name='address'
-              placeholder='532 S Olive St'
-              value={formValues.address}
-            />
-          </Box>
+      <Box width={1} px={2} py={1}>
+        <Label htmlFor='address'>Event Address (Exact)</Label>
+        <Input
+          id='address'
+          name='address'
+          placeholder='532 S Olive St'
+          value={formValues.address}
+        />
+      </Box>
 
-          <Box width={1} px={2} py={1}>
-            <Label htmlFor='location'>Event Location</Label>
-            <Input
-              id='eventLocation'
-              name='location'
-              placeholder='Los Angeles, CA 90013'
-              value={formValues.location}
-            />
-          </Box>
+      <Box width={1} px={2} py={1}>
+        <Label htmlFor='location'>Event Location</Label>
+        <GooglePlacesAutocomplete
+          // apiKey='AIzaSyAbu8a2163MJhjkvN3MQwWmamvYJE_jKx8'
+          apiKey='AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw'
+          selectProps={{
+            styles: {
+              input: (provided) => ({
+                ...provided,
+                color: 'blue',
+              }),
+            },
+            onChange: (val) => {
+              setFormValues((prev) => ({
+                ...prev,
+                location: val.label,
+              }));
+            },
+          }}
+          apiOptions={{
+            language: 'en',
+          }}
+        ></GooglePlacesAutocomplete>
+      </Box>
 
-          <Box width={1} px={2} py={1}>
-            <Label htmlFor='body'>Event Description</Label>
-            <Textarea
-              rows='6'
-              id='eventBody'
-              name='body'
-              placeholder='Enter event description. (Provide links if necessary)'
-              value={formValues.body}
-            />
-          </Box>
+      <Box width={1} px={2} py={1}>
+        <Label htmlFor='body'>Event Description</Label>
+        <Textarea
+          style={{ minHeight: '100px' }}
+          rows='6'
+          id='eventBody'
+          name='body'
+          placeholder='Enter event description. (Provide links if necessary)'
+          value={formValues.body}
+        />
+      </Box>
 
-          <Box px={2} py={1} ml='auto'>
-            <Button type='submit'>Submit Event</Button>
-          </Box>
-        </Box>
-
+      <Box px={2} py={1} ml='auto'>
+        <Button type='submit'>Submit Event</Button>
+      </Box>
+    </Box>
   );
 }

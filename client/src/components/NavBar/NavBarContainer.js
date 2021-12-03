@@ -30,7 +30,10 @@ export default function NavBarContainer() {
         onHide={() => setUserModalShow(false)}
       />
       <LoginModal show={logModalShow} onHide={() => setLogModalShow(false)} />
-      <CreateEventModal show={eventModalShow} onHide={() => setEventModalShow(false)} />
+      <CreateEventModal
+        show={eventModalShow}
+        onHide={() => setEventModalShow(false)}
+      />
       {window.location.pathname === '/' && <SearchBar />}
     </>
   );

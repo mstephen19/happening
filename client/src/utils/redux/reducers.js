@@ -3,6 +3,7 @@ import {
   UPDATE_EVENTS,
   REMOVE_EVENT,
   ADD_TO_MY_EVENTS,
+  SET_LON_LAT
 } from './actions';
 
 const initialState = {
@@ -39,6 +40,13 @@ export default function reducer(state = initialState, action) {
 
       return {...state, events: newState};
 
+    case SET_LON_LAT: {
+      return {
+        ...state,
+        longitude: action.payload.lon,
+        latitude: action.payload.lat,
+      };
+    }
     default: {
       return state;
     }

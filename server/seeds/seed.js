@@ -1,11 +1,11 @@
 const db = require('../config/connection');
-const {User, Event} = require('../models');
-const {Types} = require('mongoose');
+const { User, Event } = require('../models');
+const { Types } = require('mongoose');
 
 db.once('open', async () => {
-  await Event.deleteMany();
+  await Event.deleteMany({});
 
-  const events = await Event.insertMany([
+  const eventsToCreate = [
     {
       name: 'San Francisco Zoo & Gardens',
       body: `The San Francisco Zoo is designed with the underlying belief that nature-focused interaction leads to conservation action. Learning about animals here inspires visitors to care for all wildlife.`,
@@ -30,13 +30,21 @@ db.once('open', async () => {
       location: 'Los Angeles',
       address: '4730 Crystal Springs Dr., Los Angeles, CA 90027',
     },
-  ]);
+  ];
 
-  console.log('events seeded');
+  const events = [];
 
-  await User.deleteMany();
+  for await (obj of eventsToCreate) {
+    const event = await Event.create(obj);
+    events.push(event);
+  }
 
-  await User.create([
+  console.log('**** EVENTS SEEDED ****');
+  console.log(events);
+
+  await User.deleteMany({});
+
+  const users = await User.create([
     {
       email: 'email1@happening.com',
       username: 'test1',
@@ -47,11 +55,12 @@ db.once('open', async () => {
       email: 'email2@happening.com',
       username: 'test2',
       password: 'Password1234$',
-      events: [Types.ObjectId(events[2]._id)],
+      events: [Types.ObjectId(events[2]._id), Types.ObjectId(events[3]._id)],
     },
   ]);
 
-  console.log('users seeded');
+  console.log('**** USERS SEEDED ****');
+  console.log(users);
 
   process.exit();
 });

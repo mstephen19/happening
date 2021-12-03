@@ -43,7 +43,7 @@ const EventSchema = new Schema({
 
 EventSchema.pre('save', async function (next) {
   try {
-    const { latitude, longitude } = geocodeString(this.address);
+    const { longitude, latitude } = await geocodeString(this.address);
     this.latitude = latitude;
     this.longitude = longitude;
     return next();

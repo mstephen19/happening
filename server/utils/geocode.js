@@ -11,8 +11,12 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 const geocodeString = async (string) => {
-  const res = await geocoder.geocode(string);
+  try {const res = await geocoder.geocode(string);
   return res[0];
+  }
+  catch (err) {
+  console.error(err);
+  };
 };
 
 module.exports = geocodeString;

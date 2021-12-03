@@ -46,6 +46,7 @@ EventSchema.pre('save', async function (next) {
     const { longitude, latitude } = await geocodeString(this.address);
     this.latitude = latitude;
     this.longitude = longitude;
+    console.log(longitude, latitude);
     return next();
   } catch (err) {
     return next(err);

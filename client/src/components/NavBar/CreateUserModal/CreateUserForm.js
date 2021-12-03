@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Label } from '@rebass/forms';
-import { Box, Button } from 'rebass';
+import { Box } from 'rebass';
+import { Button } from 'react-bootstrap';
 
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../../utils/mutations';

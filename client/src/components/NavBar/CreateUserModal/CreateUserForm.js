@@ -46,16 +46,16 @@ export default function CreateUserForm() {
 
   return (
     <Box as='form' onSubmit={handleSubmit} onChange={handleChange} py={3}>
-      <Flex mx={-2} mb={3}>
-        <Box width={1 / 2} px={2}>
+      
+        <Box width={1} px={2} py={1}>
           <Label htmlFor='email'>Email</Label>
           <Input id='email' name='email' placeholder='example@email.com' />
         </Box>
-        <Box width={1 / 2} px={2}>
+        <Box width={1} px={2} py={1}>
           <Label htmlFor='username'>Username</Label>
           <Input id='username' name='username' placeholder='NuggetMaster69' />
         </Box>
-        <Box width={1 / 2} px={2}>
+        <Box width={1} px={2} py={1}>
           <Label htmlFor='password'>Password</Label>
           <Input
             id='password'
@@ -68,10 +68,10 @@ export default function CreateUserForm() {
           Must include at least 8 characters, 1 uppercase character, 1 lowercase
           character, 1 number, and 1 symbol.
         </p>
-        <Box px={2} ml='auto'>
+        <Box px={2} py={1} ml='auto'>
           <Button>Submit</Button>
         </Box>
-      </Flex>
+     
     </Box>
   );
 }

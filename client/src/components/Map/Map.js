@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMapGL from 'react-map-gl';
+import debounce from '../../utils/debounce';
 
 export default function Map() {
   let [viewport, setViewport] = useState({
     latitude: 37.7577,
     longitude: -122.4376,
     zoom: 8,
-    width: '100%',
-    height: '100%',
+    width: window.innerWidth,
+    height: window.innerHeight,
     pitch: 20,
+  });
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      setViewport((prev) => ({
+        ...prev,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }));
+    }, 500);
+    window.addEventListener('resize', handleResize);
   });
 
   return (

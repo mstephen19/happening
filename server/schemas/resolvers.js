@@ -56,6 +56,8 @@ const resolvers = {
     },
     events: async (parent, { location }) => {
       try {
+        // const regex = new RegExp(location, i);
+
         const events = await Event.find({ location }).populate('attending');
 
         if (!events) return new Error('Unable to find events');

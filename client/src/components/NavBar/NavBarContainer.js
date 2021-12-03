@@ -3,6 +3,7 @@ import Auth from '../../utils/auth';
 import NavBar from './NavBar';
 import CreateUserModal from './CreateUserModal/CreateUserModal';
 import LoginModal from './LoginModal/LoginModal';
+import SearchBar from './SearchBar/SearchBar';
 
 export default function NavBarContainer() {
   const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
@@ -26,6 +27,8 @@ export default function NavBarContainer() {
         onHide={() => setUserModalShow(false)}
       />
       <LoginModal show={logModalShow} onHide={() => setLogModalShow(false)} />
+
+      {window.location.pathname === '/' && <SearchBar />}
     </>
   );
 }

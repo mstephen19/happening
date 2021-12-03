@@ -4,9 +4,5 @@ import EventList from '../components/EventList';
 import Auth from '../utils/auth';
 
 export default function Dashboard() {
-  return (
-    <Paper >
-      <EventList />
-    </Paper>
-  );
+  return (<EventList />);
 }

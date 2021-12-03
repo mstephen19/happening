@@ -1,4 +1,4 @@
-import { SET_LOCATION } from './actions';
+import { SET_LOCATION, SET_LON_LAT } from './actions';
 
 export default function reducer(state, action) {
   switch (action.type) {
@@ -6,6 +6,13 @@ export default function reducer(state, action) {
       return {
         ...state,
         search: action.payload,
+      };
+    }
+    case SET_LON_LAT: {
+      return {
+        ...state,
+        longitude: action.payload.lon,
+        latitude: action.payload.lat,
       };
     }
     default: {

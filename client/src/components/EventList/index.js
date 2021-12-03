@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import EventCard from '../EventCard';
-import {useLazyQuery} from '@apollo/client';
-import {useSelector} from 'react-redux';
+import {useLazyQuery, useQuery} from '@apollo/client';
+import {useSelector, useDispatch} from 'react-redux';
 import {GET_EVENTS_CREATED_BY_USER} from '../../utils/queries';
+import { UPDATE_EVENTS } from '../../utils/redux/actions';
+import { idbPromise } from '../../utils/helpers';
 
 const events = [
   {
@@ -16,17 +18,30 @@ const events = [
 
 function EventList() {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  const [makeQuery, {loading, data, error}] = useLazyQuery(
-    GET_EVENTS_CREATED_BY_USER,
-    {
-      variables: {user: state.user},
-    }
-  );
+  const { loading, data } = useQuery(GET_EVENTS_CREATED_BY_USER);
+
 
   useEffect(() => {
-    makeQuery();
-  }, [state]);
+    if (data) {
+      dispatch({
+        type: UPDATE_EVENTS,
+        attendingEvents: data.attendingEvents,
+      });
+      data.attendingEvents.forEach(event => {
+        idbPromise('attending-events', 'put', event);
+      });
+    }
+    else if (!loading) {
+      idbPromise('attending-events', 'get').then((events) => {
+        dispatch({
+          type: UPDATE_EVENTS,
+          attendingEvents: events
+        })
+      })
+    }
+  }, [data, loading, dispatch]);
 
   const eventsList = events;
 

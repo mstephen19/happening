@@ -14,8 +14,7 @@ export default function Map() {
       variables: { location: state },
     }
   );
-
-  console.log(data);
+  // loading && console.log('loading');
 
   useEffect(() => {
     makeQuery();

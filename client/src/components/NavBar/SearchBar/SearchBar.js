@@ -1,16 +1,13 @@
 import React from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
-import { Button, Flex, Box } from 'rebass';
+import { useSelector, useDispatch } from 'react-redux';
+import { SET_LOCATION } from '../../../utils/redux/actions';
 
 export default function SearchBar() {
+  const state = useSelector((store) => store);
+  // console.log(state);
+  const dispatch = useDispatch();
   return (
-    // <Flex
-    //   onSubmit={(e) => {
-    //     e.preventDefault();
-    //     console.log('working');
-    //   }}
-    //   style={{ width: '75%', background: 'green', height: 'auto' }}
-    // >
     <>
       <GooglePlacesAutocomplete
         apiKey='AIzaSyAbu8a2163MJhjkvN3MQwWmamvYJE_jKx8'
@@ -21,13 +18,14 @@ export default function SearchBar() {
               color: 'blue',
             }),
           },
+          onChange: (val) => {
+            dispatch({ type: SET_LOCATION, payload: val.label });
+          },
         }}
         apiOptions={{
           language: 'en',
         }}
       ></GooglePlacesAutocomplete>
     </>
-    // <Button type='submit'>Submit</Button>
-    // </Flex>
   );
 }

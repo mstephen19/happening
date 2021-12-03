@@ -106,11 +106,13 @@ const resolvers = {
           location,
           address,
         });
+        console.log(newEvent);
 
         if (!newEvent) return new Error('Failed to create event.');
 
         return newEvent;
       } catch (err) {
+        console.log(err);
         return err;
       }
     },

@@ -14,3 +14,9 @@ export const GET_EVENTS_BY_LOCATION = gql`
     }
   }
 `;
+
+export const QUERY_USER = gql`
+  {
+    user
+  }
+`;

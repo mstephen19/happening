@@ -10,6 +10,7 @@ import GlobalProvider from './utils/redux/GlobalContext';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Main from './pages/Main';
+import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 
 
@@ -42,8 +43,9 @@ export default function App() {
           <NavBarContainer />
           <Switch>
             <Route exact path='/' component={Main} />
+            <Route exact path='/dashboard' component={Dashboard} />
             {/* Event form is temporary for creation */}
-            <Route exact path='/createEvent' component={CreateEventForm} />
+            {/* <Route exact path='/createEvent' component={CreateEventForm} /> */}
             <Route component={NotFound} />
           </Switch>
         </Router>

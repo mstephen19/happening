@@ -6,7 +6,6 @@ import Geocode from 'react-geocode';
 
 export default function SearchBar() {
   const state = useSelector((store) => store);
-  // console.log(state);
   const dispatch = useDispatch();
 
   return (
@@ -20,7 +19,8 @@ export default function SearchBar() {
               ...provided,
               color: 'blue',
             }),
-          },
+          }, 
+          placeholder: 'Search for a city.',
           onChange: async (val) => {
             Geocode.setApiKey('AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw');
             Geocode.setLocationType('ROOFTOP');

@@ -6,7 +6,6 @@ import Geocode from 'react-geocode';
 
 export default function SearchBar() {
   const state = useSelector((store) => store);
-  // console.log(state);
   const dispatch = useDispatch();
 
   return (

@@ -19,7 +19,8 @@ export default function SearchBar() {
               ...provided,
               color: 'blue',
             }),
-          },
+          }, 
+          placeholder: 'Search for a city.',
           onChange: async (val) => {
             Geocode.setApiKey('AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw');
             Geocode.setLocationType('ROOFTOP');

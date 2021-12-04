@@ -25,6 +25,15 @@ export default function CreateEventForm() {
     );
   };
 
+  const [errorText, setErrorText] = useState(false);
+  const Failure = () => {
+    return (
+      <Box px={1} ml='auto' color='red'>
+        <p>Failed to create event, please try again.</p>
+      </Box>
+    )
+  };
+
   // Changes values of inputs during changes
   const handleFormChange = (e) => {
     const currentState = { ...formValues };
@@ -57,7 +66,8 @@ export default function CreateEventForm() {
       // Toggles visible success text
       setSuccessText(true);
     } catch (err) {
-      alert("Failed to create event");
+      console.error(err);
+      setErrorText(true);
     }
   };
 
@@ -130,6 +140,7 @@ export default function CreateEventForm() {
       </Box>
 
       {successText ? <Success /> : null}
+      {errorText ? <Failure /> : null}
     </Box>
   );
 }

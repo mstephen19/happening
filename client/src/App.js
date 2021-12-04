@@ -35,6 +35,14 @@ const client = new ApolloClient({
 });
 
 export default function App() {
+
+  // This can return lat and lon from user location
+  // navigator.geolocation.getCurrentPosition(function(position) {
+  //   console.log('latitude: ', position.coords.latitude);
+  //   console.log('longitude: ', position.coords.longitude);
+  // });
+
+
   return (
     <ApolloProvider client={client}>
       <GlobalProvider>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Button } from 'rebass';
+import '../../styles/navbar.css';
 
 export default function NavBar({
   loggedIn,
@@ -25,19 +26,19 @@ export default function NavBar({
     >
       {loggedIn ? (
         <>
-          <Button variant='secondary' mr={2} onClick={onLogOut}>
+          <Button className='navBtn' mr={2} onClick={onLogOut}>
             Log Out
           </Button>
-          <Button variant="primary" mr={2} onClick={onEventModal}>
+          <Button className='navBtn' mr={2} onClick={onEventModal}>
             Create Event
           </Button>
         </>
       ) : (
         <>
-          <Button variant='primary' mr={2} onClick={onLogIn}>
+          <Button className='navBtn' mr={2} onClick={onLogIn}>
             Log in
           </Button>
-          <Button variant='secondary' mr={2} onClick={onCreateAccount}>
+          <Button className='navBtn' mr={2} onClick={onCreateAccount}>
             Create Account
           </Button>
         </>

@@ -3,13 +3,15 @@ import {
   UPDATE_EVENTS,
   REMOVE_EVENT,
   ADD_TO_MY_EVENTS,
-  SET_LON_LAT
+  SET_LON_LAT,
+  SET_USER,
 } from './actions';
+
+import Auth from '../auth'
 
 const initialState = {
   events: [],
   attendingEvents: [],
-  currentEvent: '',
 };
 
 export default function reducer(state = initialState, action) {
@@ -21,16 +23,23 @@ export default function reducer(state = initialState, action) {
       };
     }
 
+    case SET_USER: {
+      return {
+        ...state,
+        user: action.user,
+      };
+    }
+    
     case ADD_TO_MY_EVENTS:
       return {
         ...state,
-        attendingEvents: [...state.attendingEvents, action.event],
+        attendingEvents: [...state.attendingEvents, action.payload.event],
       };
 
     case UPDATE_EVENTS:
       return {
         ...state,
-        events: [...action.events],
+        events: [...action.payload.events],
       };
 
     case REMOVE_EVENT:

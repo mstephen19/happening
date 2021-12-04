@@ -3,49 +3,55 @@ import EventCard from '../EventCard';
 import {useLazyQuery, useQuery} from '@apollo/client';
 import {useSelector, useDispatch} from 'react-redux';
 import {GET_EVENTS_CREATED_BY_USER} from '../../utils/queries';
-import { UPDATE_EVENTS } from '../../utils/redux/actions';
-import { idbPromise } from '../../utils/helpers';
-
-const events = [
-  {
-    creator: 'Isaac',
-    name: 'San Francisco Zoo & Gardens',
-    body: `The San Francisco Zoo is designed with the underlying belief that nature-focused interaction leads to conservation action. Learning about animals here inspires visitors to care for all wildlife.`,
-    location: 'San Francisco, CA, USA',
-    address: 'Sloat Blvd &, Upper Great Hwy, San Francisco, CA 94132',
-  },
-];
+import {UPDATE_EVENTS} from '../../utils/redux/actions';
+import {idbPromise} from '../../utils/helpers';
+import {Box} from '@mui/system';
+import {CircularProgress} from '@mui/material';
 
 function EventList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const { loading, data } = useQuery(GET_EVENTS_CREATED_BY_USER);
-
-
+  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER);
+  console.log(data);
   useEffect(() => {
     if (data) {
       dispatch({
         type: UPDATE_EVENTS,
-        attendingEvents: data.attendingEvents,
+        events: data.events,
       });
-      data.attendingEvents.forEach(event => {
+      data.events.forEach((event) => {
         idbPromise('attending-events', 'put', event);
       });
-    }
-    else if (!loading) {
+    } else if (!loading) {
       idbPromise('attending-events', 'get').then((events) => {
         dispatch({
           type: UPDATE_EVENTS,
-          attendingEvents: events
-        })
-      })
+          events: events,
+        });
+      });
     }
   }, [data, loading, dispatch]);
 
-  const eventsList = events;
-
-  return <EventCard event={events[0]} />;
+  return (
+    <Box sx={{mt: 1}}>
+      <h2>My Events:</h2>
+      {state.events.length ? (
+        <Box display="flex" flexDirection="column" bgcolor="background.paper">
+          {state.events.map((event) => (
+            <EventCard key={event._id} event={event} />
+          ))}
+        </Box>
+      ) : (
+        <h3>You haven't created any events yet!</h3>
+      )}
+      {loading ? (
+        <Box sx={{display: 'flex'}}>
+          <CircularProgress />
+        </Box>
+      ) : null}
+    </Box>
+  );
 }
 
 export default EventList;

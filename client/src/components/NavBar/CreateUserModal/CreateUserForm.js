@@ -4,6 +4,7 @@ import { Box, Button } from 'rebass';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
+import '../../../styles/createUser.css';
 
 export default function CreateUserForm() {
   const [formValues, setFormValues] = useState({
@@ -68,7 +69,7 @@ export default function CreateUserForm() {
           character, 1 number, and 1 symbol.
         </p>
         <Box px={2} py={1} ml='auto'>
-          <Button variant='primary'>Submit</Button>
+          <Button className='submitBtn'>Submit</Button>
         </Box>
      
     </Box>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import { Label, Input, Textarea } from "@rebass/forms";
-import { Box } from "rebass";
+import { Box, Button } from "rebass";
 import { useMutation } from "@apollo/client";
 import { CREATE_EVENT } from "../../../utils/mutations";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
@@ -136,7 +135,7 @@ export default function CreateEventForm() {
       </Box>
 
       <Box px={2} py={1} ml='auto'>
-        <Button type='submit'>Submit Event</Button>
+        <Button bg='blue' type='submit'>Submit Event</Button>
       </Box>
 
       {successText ? <Success /> : null}

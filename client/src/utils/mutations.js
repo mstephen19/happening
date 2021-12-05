@@ -32,8 +32,9 @@ export const CREATE_EVENT = gql`
     $body: String!
     $location: String!
     $address: String!
+    $day: String!
   ) {
-    newEvent(name: $name, body: $body, location: $location, address: $address) {
+    newEvent(name: $name, body: $body, location: $location, address: $address, day: $day) {
       _id
       name
       body
@@ -41,6 +42,7 @@ export const CREATE_EVENT = gql`
       address
       latitude
       longitude
+      day
     }
   }
 `;

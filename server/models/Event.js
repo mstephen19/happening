@@ -33,6 +33,10 @@ const EventSchema = new Schema({
   longitude: {
     type: Number,
   },
+  day: {
+    type: String,
+  
+  },
   attending: [
     {
       type: Schema.Types.ObjectId,

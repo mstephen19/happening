@@ -4,6 +4,7 @@ import { Box, Button } from "rebass";
 import { useMutation } from "@apollo/client";
 import { CREATE_EVENT } from "../../../utils/mutations";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import DatePicker from 'react-date-picker';
 
 export default function CreateEventForm() {
   const [createEvent, { error, loading, data }] = useMutation(CREATE_EVENT);
@@ -33,6 +34,9 @@ export default function CreateEventForm() {
     )
   };
 
+// Values for calendar
+const [startDate, setStartDate] = useState(new Date());
+
   // Changes values of inputs during changes
   const handleFormChange = (e) => {
     const currentState = { ...formValues };
@@ -46,15 +50,17 @@ export default function CreateEventForm() {
     console.log("Form submit entered");
 
     try {
+      console.log(startDate);
       const { data } = await createEvent({
         variables: {
           name: formValues.name,
           address: `${formValues.address} ${formValues.location}`,
           location: formValues.location,
           body: formValues.body,
+          day: startDate,
         },
       });
-
+      console.log(data);
       // Resets form values to blank
       setFormValues({
         name: "",
@@ -65,7 +71,7 @@ export default function CreateEventForm() {
       // Toggles visible success text
       setSuccessText(true);
     } catch (err) {
-      console.error(err);
+      console.log(err);
       setErrorText(true);
     }
   };
@@ -120,6 +126,11 @@ export default function CreateEventForm() {
             language: "en",
           }}
         ></GooglePlacesAutocomplete>
+      </Box>
+
+      <Box width={1} px={2} py={1}>
+        <Label htmlFor='date'>Event Address (Exact)</Label>
+        <DatePicker id='date' name='date' value={startDate} onChange={(date) => setStartDate(date)} />
       </Box>
 
       <Box width={1} px={2} py={1}>

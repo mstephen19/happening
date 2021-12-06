@@ -7,7 +7,7 @@ export default function Sidebar({ text, children }) {
     <div
       style={{
         position: 'absolute',
-        width: '200px',
+        width: '450px',
         height: '100%',
         minHeight: '400px',
         right: '0',
@@ -19,6 +19,7 @@ export default function Sidebar({ text, children }) {
         alignItems: 'center',
         boxShadow: '0 0 20px black',
         overflowY: 'scroll',
+        gap: '1rem',
       }}
     >
       <SidebarHeader text={text} />

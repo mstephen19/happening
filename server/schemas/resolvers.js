@@ -1,22 +1,23 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { GraphQLScalarType } = require('graphql');
-const { Kind } = require('graphql/language');
+const {AuthenticationError} = require('apollo-server-express');
+const {GraphQLScalarType} = require('graphql');
+const {Kind} = require('graphql/language');
 // Import models
 
-const { Types } = require('mongoose');
+const {Types} = require('mongoose');
 // ex. { $push: { exercises: Types.ObjectId(_id) } },
 
-const { Event, User } = require('../models');
-const { signToken } = require('../utils/auth');
+const {Event, User} = require('../models');
+const {signToken} = require('../utils/auth');
 
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (!context.user) return new AuthenticationError('Not logged in!');
       try {
-        const me = await User.findOne({ _id: context.user._id });
+        const me = await User.findOne({_id: context.user._id}).populate(
+          'events'
+        );
         console.log(me);
-
         if (!me) return new Error('User not found in database.');
 
         return me;
@@ -24,9 +25,9 @@ const resolvers = {
         return err;
       }
     },
-    user: async (parent, { username }) => {
+    user: async (parent, {username}) => {
       try {
-        const theUser = await User.findOne({ username }).populate('events');
+        const theUser = await User.findOne({username}).populate('events');
 
         if (!theUser) return new Error('User with this username not found.');
 
@@ -44,7 +45,7 @@ const resolvers = {
         return err;
       }
     },
-    event: async (parent, { id }) => {
+    event: async (parent, {id}) => {
       try {
         const event = await Event.findById(id).populate('attending');
 
@@ -55,11 +56,11 @@ const resolvers = {
         return err;
       }
     },
-    events: async (parent, { location }) => {
+    events: async (parent, {location}) => {
       try {
         // const regex = new RegExp(location, i);
 
-        const events = await Event.find({ location })
+        const events = await Event.find({location})
           .populate('attending')
           .populate('creator');
 
@@ -70,6 +71,14 @@ const resolvers = {
         return err;
       }
     },
+    eventsByUser: async (parent, args, {user}) => {
+      try {
+        const events = await Event.find({ creator: user._id });
+        return events;
+      } catch (error) {
+        return error;
+      }
+    }
   },
   Mutation: {
     newUser: async (parent, args, context) => {
@@ -77,14 +86,14 @@ const resolvers = {
         const user = await User.create(args);
         const token = signToken(user);
 
-        return { token, user };
+        return {token, user};
       } catch (err) {
         return err;
       }
     },
-    login: async (parent, { username, password }, context) => {
+    login: async (parent, {username, password}, context) => {
       try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({username});
 
         if (!user)
           return new AuthenticationError('No user with this username found.');
@@ -94,16 +103,12 @@ const resolvers = {
         if (!correctPass) return new AuthenticationError('Incorrect password.');
 
         const token = signToken(user);
-        return { token, user };
+        return {token, user};
       } catch (err) {
         return err;
       }
     },
-    newEvent: async (
-      parent,
-      { name, body, location, address, day },
-      { user }
-    ) => {
+    newEvent: async (parent, {name, body, location, address, day}, {user}) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const newEvent = await Event.create({
@@ -115,10 +120,11 @@ const resolvers = {
           day,
         });
 
+        console.log(newEvent);
         if (!newEvent) return new Error('Failed to create event.');
 
         const addToUser = await User.findOneAndUpdate(
-          { id: user._id },
+          {id: user._id},
           {
             $push: {
               events: {
@@ -135,7 +141,9 @@ const resolvers = {
         //   }
         // );
 
-        if (!addToUser) return new Error('Failed to create event.');
+        console.log(addToUser);
+        if (!addToUser.events.length)
+          return new Error('Failed to create event.');
 
         return newEvent;
       } catch (err) {
@@ -143,7 +151,7 @@ const resolvers = {
         return err;
       }
     },
-    deleteEvent: async (parent, args, { user }) => {
+    deleteEvent: async (parent, args, {user}) => {
       if (!user)
         return new AuthenticationError("You shouldn't be able to do this...");
 
@@ -160,13 +168,13 @@ const resolvers = {
         return err;
       }
     },
-    attendEvent: async (parent, { id }, { user }) => {
+    attendEvent: async (parent, {id}, {user}) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const withNewUser = await Event.findOneAndUpdate(
-          { _id: id },
-          { $push: { attending: Types.ObjectId(user._id) } },
-          { new: true }
+          {_id: id},
+          {$push: {attending: Types.ObjectId(user._id)}},
+          {new: true}
         );
 
         return withNewUser;
@@ -174,13 +182,13 @@ const resolvers = {
         return err;
       }
     },
-    unAttendEvent: async (parent, { id }, { user }) => {
+    unAttendEvent: async (parent, {id}, {user}) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const deleteUser = await Event.findOneAndUpdate(
-          { _id: id },
-          { $pullAll: { attending: { _id: Types.ObjectId(user._id) } } },
-          { new: true }
+          {_id: id},
+          {$pullAll: {attending: {_id: Types.ObjectId(user._id)}}},
+          {new: true}
         );
 
         return deleteUser;

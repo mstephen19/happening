@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Component, useEffect} from 'react';
 import EventCard from '../EventCard';
 import {useLazyQuery, useQuery} from '@apollo/client';
 import {useSelector, useDispatch} from 'react-redux';
@@ -38,7 +38,6 @@ function EventList() {
     }
   }, [state]);
 
-  
   return (
     <Box sx={{mt: 1}}>
       <h2>My Events:</h2>

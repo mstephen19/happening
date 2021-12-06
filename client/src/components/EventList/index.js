@@ -45,7 +45,7 @@ function EventList() {
       {data?.eventsByUser ? (
         <Box display="flex" flexDirection="column" bgcolor="background.paper">
           {data.eventsByUser.map((event) => (
-            <EventCard key={event._id} event={event} />
+            <EventCard key={event._id} event={event}/>
           ))}
         </Box>
       ) : (

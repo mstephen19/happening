@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import EventCard from '../EventCard';
 import {useLazyQuery, useQuery} from '@apollo/client';
 import {useSelector, useDispatch} from 'react-redux';
-import {GET_EVENTS_CREATED_BY_USER} from '../../utils/queries';
+import {QUERY_USER} from '../../utils/queries';
 import {UPDATE_EVENTS} from '../../utils/redux/actions';
 import {idbPromise} from '../../utils/helpers';
 import {Box} from '@mui/system';
@@ -12,13 +12,15 @@ function EventList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER, {
-    variables: {user: state?.user._id},
-  });
+  const {loading, data} = useQuery(QUERY_USER);
   
-  console.log(state);
   useEffect(() => {
+    if (state.user) {
+      console.log(state.user._id);
+    }
     if (data) {
+      console.log(data);
+      
       dispatch({
         type: UPDATE_EVENTS,
         events: data.events,
@@ -34,12 +36,13 @@ function EventList() {
         });
       });
     }
-  }, [data, loading, dispatch]);
+  }, [state]);
 
+  
   return (
     <Box sx={{mt: 1}}>
       <h2>My Events:</h2>
-      {state?.user?.events.length ? (
+      {data?.user?.events ? (
         <Box display="flex" flexDirection="column" bgcolor="background.paper">
           {state.events.map((event) => (
             <EventCard key={event._id} event={event} />

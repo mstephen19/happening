@@ -1,7 +1,6 @@
 require('dotenv').config();
 const NodeGeocoder = require('node-geocoder');
 
-
 const options = {
   provider: 'mapquest',
   apiKey: process.env.MAPQUEST_API_KEY,

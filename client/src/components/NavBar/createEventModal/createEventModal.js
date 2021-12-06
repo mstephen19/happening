@@ -82,6 +82,7 @@ const [startDate, setStartDate] = useState(new Date());
       py={2}
       onChange={handleFormChange}
       onSubmit={handleFormSubmit}
+      style={{ zIndex: '99999' }}
     >
       <Box width={1} px={2}>
         <Label htmlFor='name'>Event Name</Label>

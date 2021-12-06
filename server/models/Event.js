@@ -35,7 +35,6 @@ const EventSchema = new Schema({
   },
   day: {
     type: String,
-  
   },
   attending: [
     {

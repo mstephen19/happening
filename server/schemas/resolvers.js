@@ -69,17 +69,6 @@ const resolvers = {
         return err;
       }
     },
-
-    userEvents: async (parent, {id}) => {
-      try {
-        const events = await Event.find({_id: id})
-          .populate('attending')
-          .populate('creator');
-        return events;
-      } catch (error) {
-        return error;
-      }
-    },
   },
   Mutation: {
     newUser: async (parent, args, context) => {
@@ -125,10 +114,24 @@ const resolvers = {
 
         const addToUser = await User.findOneAndUpdate(
           { id: user._id },
-          { $push: { events: Types.ObjectId(newEvent._id) } }
+          {
+            $push: {
+              events: {
+                $each: [Types.ObjectId(newEvent._id)],
+              },
+            },
+          }
         );
 
-        if (!addToUser) return new Error('Failed to create event.');
+        // const addToUser = await User.findOneAndUpdate(
+        //   { id: user._id },
+        //   {
+        //     $push: { events: [Types.ObjectId(newEvent._id)] },
+        //   }
+        // );
+
+        console.log(addToUser);
+        if (!addToUser.events.length) return new Error('Failed to create event.');
 
         return newEvent;
       } catch (err) {

@@ -12,13 +12,15 @@ function EventList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER, {
-    variables: {user: state?.user._id},
-  });
-  
-  console.log(state);
+  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER);
+  console.log(data);
   useEffect(() => {
+    if (state.user) {
+      console.log(state.user._id);
+    }
     if (data) {
+      console.log(data.me);
+      
       dispatch({
         type: UPDATE_EVENTS,
         events: data.events,
@@ -34,14 +36,15 @@ function EventList() {
         });
       });
     }
-  }, [data, loading, dispatch]);
+  }, [state]);
 
+  
   return (
     <Box sx={{mt: 1}}>
       <h2>My Events:</h2>
-      {state?.user?.events.length ? (
+      {data?.eventsByUser ? (
         <Box display="flex" flexDirection="column" bgcolor="background.paper">
-          {state.events.map((event) => (
+          {data.eventsByUser.map((event) => (
             <EventCard key={event._id} event={event} />
           ))}
         </Box>

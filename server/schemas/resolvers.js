@@ -15,6 +15,7 @@ const resolvers = {
       if (!context.user) return new AuthenticationError('Not logged in!');
       try {
         const me = await User.findOne({ _id: context.user._id });
+        console.log(me);
 
         if (!me) return new Error('User not found in database.');
 
@@ -69,8 +70,6 @@ const resolvers = {
         return err;
       }
     },
-
-    userEvents: async (parent, args)
   },
   Mutation: {
     newUser: async (parent, args, context) => {
@@ -120,8 +119,21 @@ const resolvers = {
 
         const addToUser = await User.findOneAndUpdate(
           { id: user._id },
-          { $push: { events: Types.ObjectId(newEvent._id) } }
+          {
+            $push: {
+              events: {
+                $each: [Types.ObjectId(newEvent._id)],
+              },
+            },
+          }
         );
+
+        // const addToUser = await User.findOneAndUpdate(
+        //   { id: user._id },
+        //   {
+        //     $push: { events: [Types.ObjectId(newEvent._id)] },
+        //   }
+        // );
 
         if (!addToUser) return new Error('Failed to create event.');
 

@@ -1,3 +1,18 @@
+import React, {Component} from 'react';
+
+export const NewHOC = (PassedComponent) => {
+  return class extends Component {
+    render() {
+      return (
+        <div>
+          <PassedComponent {...this.props} />
+        </div>
+      );
+    }
+  };
+};
+
+
 export function idbPromise(storeName, method, object) {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.open('events', 1);

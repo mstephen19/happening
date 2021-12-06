@@ -4,14 +4,20 @@ export const GET_EVENTS_BY_LOCATION = gql`
   query events($location: String!) {
     events(location: $location) {
       _id
-      # creator
+      creator {
+        _id
+        username
+      }
       name
       body
       location
       address
       latitude
       longitude
-      # attending
+      attending {
+        _id
+        username
+      }
     }
   }
 `;

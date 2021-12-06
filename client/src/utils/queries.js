@@ -21,3 +21,16 @@ export const QUERY_USER = gql`
     user
   }
 `;
+
+export const GET_EVENTS_CREATED_BY_USER = gql`
+  query userEvents($id: ID!){
+    userEvents(id: $id){
+      _id
+      name
+      body
+      location
+      day
+      address
+    }
+  }
+`;

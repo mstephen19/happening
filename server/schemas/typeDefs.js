@@ -43,6 +43,7 @@ const typeDefs = gql`
     me: User
     event: Event
     events(location: String!): [Event]
+    userEvents(id : ID!): [Event]
   }
 
   type Mutation {

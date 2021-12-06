@@ -13,12 +13,13 @@ import {
 import { red } from '@mui/material/colors';
 import { ADD_TO_MY_EVENTS} from '../../utils/redux/actions';
 import { idbPromise } from '../../utils/helpers';
+import { useLazyQuery } from '@apollo/client';
 
 
 function EventCard(event) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  
   const {
     _id,
     creator,

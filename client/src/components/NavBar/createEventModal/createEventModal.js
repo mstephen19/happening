@@ -1,49 +1,78 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Label, Input, Textarea } from '@rebass/forms';
-import { Box } from 'rebass';
-import { useMutation } from '@apollo/client';
-import { CREATE_EVENT } from '../../../utils/mutations';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import React, { useState } from "react";
+import { Label, Input, Textarea } from "@rebass/forms";
+import { Box, Button } from "rebass";
+import { useMutation } from "@apollo/client";
+import { CREATE_EVENT } from "../../../utils/mutations";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import DatePicker from 'react-date-picker';
 
 export default function CreateEventForm() {
   const [createEvent, { error, loading, data }] = useMutation(CREATE_EVENT);
   const [formValues, setFormValues] = useState({
-    name: '',
-    address: '',
-    location: '',
-    body: '',
+    name: "",
+    address: "",
+    location: "",
+    body: "",
   });
 
+  // Renders success status text on successful submit
+  const [successText, setSuccessText] = useState(false);
+  const Success = () => {
+    return (
+      <Box px={1} py={1} ml='auto' color='green'>
+        <p>Success</p>
+      </Box>
+    );
+  };
+
+  const [errorText, setErrorText] = useState(false);
+  const Failure = () => {
+    return (
+      <Box px={1} ml='auto' color='red'>
+        <p>Failed to create event, please try again.</p>
+      </Box>
+    )
+  };
+
+// Values for calendar
+const [startDate, setStartDate] = useState(new Date());
+
+  // Changes values of inputs during changes
   const handleFormChange = (e) => {
     const currentState = { ...formValues };
     currentState[e.target.name] = e.target.value;
     setFormValues(currentState);
   };
 
+  // Submits form with values from input fields
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submit entered');
+    console.log("Form submit entered");
 
     try {
+      console.log(startDate);
       const { data } = await createEvent({
         variables: {
           name: formValues.name,
           address: `${formValues.address} ${formValues.location}`,
           location: formValues.location,
           body: formValues.body,
+          day: startDate,
         },
       });
-
+      console.log(data);
+      // Resets form values to blank
       setFormValues({
-        name: '',
-        address: '',
-        location: '',
-        body: '',
+        name: "",
+        address: "",
+        location: "",
+        body: "",
       });
-      alert('Success');
+      // Toggles visible success text
+      setSuccessText(true);
     } catch (err) {
-      alert('Failed to create event');
+      console.log(err);
+      setErrorText(true);
     }
   };
 
@@ -84,7 +113,7 @@ export default function CreateEventForm() {
             styles: {
               input: (provided) => ({
                 ...provided,
-                color: 'blue',
+                color: "blue",
               }),
             },
             onChange: (val) => {
@@ -95,15 +124,20 @@ export default function CreateEventForm() {
             },
           }}
           apiOptions={{
-            language: 'en',
+            language: "en",
           }}
         ></GooglePlacesAutocomplete>
       </Box>
 
       <Box width={1} px={2} py={1}>
+        <Label htmlFor='date'>Event Address (Exact)</Label>
+        <DatePicker id='date' name='date' value={startDate} onChange={(date) => setStartDate(date)} />
+      </Box>
+
+      <Box width={1} px={2} py={1}>
         <Label htmlFor='body'>Event Description</Label>
         <Textarea
-          style={{ minHeight: '100px' }}
+          style={{ minHeight: "100px" }}
           rows='6'
           id='eventBody'
           name='body'
@@ -113,8 +147,11 @@ export default function CreateEventForm() {
       </Box>
 
       <Box px={2} py={1} ml='auto'>
-        <Button type='submit'>Submit Event</Button>
+        <Button bg='blue' type='submit'>Submit Event</Button>
       </Box>
+
+      {successText ? <Success /> : null}
+      {errorText ? <Failure /> : null}
     </Box>
   );
 }

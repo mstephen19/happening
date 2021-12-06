@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Label } from '@rebass/forms';
-import { Box, Button, Flex } from 'rebass';
+import { Box, Button } from 'rebass';
 import Auth from '../../../utils/auth';
-
 import { useMutation } from '@apollo/client';
 import { LOG_IN } from '../../../utils/mutations';
 
@@ -52,7 +51,7 @@ export default function LoginForm() {
           />
         </Box>
         <Box px={2} py={1} ml='auto'>
-          <Button type="submit" variant='primary'>Submit</Button>
+          <Button bg='blue' type="submit">Submit</Button>
         </Box>
       
     </Box>

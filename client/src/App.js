@@ -8,11 +8,12 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import GlobalProvider from './utils/redux/GlobalContext';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import Main from './pages/Main';
+import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
-
 import NavBarContainer from './components/NavBar/NavBarContainer';
+import './styles/app.css';
+
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -34,6 +35,14 @@ const client = new ApolloClient({
 });
 
 export default function App() {
+
+  // This can return lat and lon from user location
+  // navigator.geolocation.getCurrentPosition(function(position) {
+  //   console.log('latitude: ', position.coords.latitude);
+  //   console.log('longitude: ', position.coords.longitude);
+  // });
+
+
   return (
     <ApolloProvider client={client}>
       <GlobalProvider>
@@ -41,6 +50,7 @@ export default function App() {
           <NavBarContainer />
           <Switch>
             <Route exact path='/' component={Main} />
+            <Route exact path='/dashboard' component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
         </Router>

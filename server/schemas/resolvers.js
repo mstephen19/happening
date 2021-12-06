@@ -96,7 +96,7 @@ const resolvers = {
         return err;
       }
     },
-    newEvent: async (parent, { name, body, location, address }, { user }) => {
+    newEvent: async (parent, { name, body, location, address, day }, { user }) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const newEvent = await Event.create({
@@ -105,12 +105,15 @@ const resolvers = {
           body,
           location,
           address,
+          day,
         });
+        console.log(newEvent);
 
         if (!newEvent) return new Error('Failed to create event.');
 
         return newEvent;
       } catch (err) {
+        console.log(err);
         return err;
       }
     },

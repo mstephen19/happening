@@ -1,5 +1,15 @@
-import React from 'react';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import "../styles/notFound.css";
 
 export default function NotFound() {
-  return (<div>404 Not Found</div>);
+  const location = useLocation();
+  return (
+    <div className='notFoundCard'>
+      <h2>404</h2>
+      <p>
+        404, no result for <code>{location.pathname}</code>
+      </p>
+    </div>
+  );
 }

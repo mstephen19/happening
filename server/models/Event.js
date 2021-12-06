@@ -33,6 +33,10 @@ const EventSchema = new Schema({
   longitude: {
     type: Number,
   },
+  day: {
+    type: String,
+  
+  },
   attending: [
     {
       type: Schema.Types.ObjectId,
@@ -46,6 +50,7 @@ EventSchema.pre('save', async function (next) {
     const { longitude, latitude } = await geocodeString(this.address);
     this.latitude = latitude;
     this.longitude = longitude;
+    console.log(longitude, latitude);
     return next();
   } catch (err) {
     return next(err);

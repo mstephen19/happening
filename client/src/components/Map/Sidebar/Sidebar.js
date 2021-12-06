@@ -1,20 +1,28 @@
 import React from 'react';
+import SidebarHeader from './SidebarHeader';
+import SidebarList from './SidebarList';
 
-export default function Sidebar({ children }) {
+export default function Sidebar({ text, children }) {
   return (
     <div
       style={{
-        position: 'fixed',
+        position: 'absolute',
         width: '200px',
         height: '100%',
         minHeight: '400px',
         right: '0',
         bottom: '0',
-        background: 'red',
-        zIndex: '99999',
+        background: 'grey',
+        zIndex: '99',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxShadow: '0 0 20px black',
+        overflowY: 'scroll',
       }}
     >
-      {children}
+      <SidebarHeader text={text} />
+      <SidebarList>{children}</SidebarList>
     </div>
   );
 }

@@ -5,12 +5,13 @@ export const GET_EVENTS_BY_LOCATION = gql`
     events(location: $location) {
       _id
       # creator
-      # name
-      # body
-      # location
-      # address
+      name
+      body
+      location
+      address
       latitude
       longitude
+      # attending
     }
   }
 `;

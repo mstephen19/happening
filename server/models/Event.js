@@ -34,8 +34,7 @@ const EventSchema = new Schema({
     type: Number,
   },
   day: {
-    type: String,
-  
+    type: Date,
   },
   attending: [
     {

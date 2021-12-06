@@ -10,16 +10,18 @@ import {
   Avatar,
   CardActions,
 } from '@mui/material';
-import { red } from '@mui/material/colors';
-import { ADD_TO_MY_EVENTS} from '../../utils/redux/actions';
-import { idbPromise } from '../../utils/helpers';
-import { useLazyQuery } from '@apollo/client';
-
+import {red} from '@mui/material/colors';
+import { REMOVE_EVENT} from '../../utils/redux/actions';
+import {idbPromise} from '../../utils/helpers';
+import {useMutation} from '@apollo/client';
+import {DELETE_EVENT} from '../../utils/mutations';
 
 function EventCard(event) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  
+
+  const [eventToDelete, {error, loading, data}] = useMutation(DELETE_EVENT);
+
   const {
     _id,
     creator,
@@ -31,28 +33,24 @@ function EventCard(event) {
     attending,
   } = event;
 
-  const { eventsAttending } = state;
+  const deleteEvent = async () => {
+    
+   const eventRemoved = await eventToDelete({ id: _id });
 
-  const attendEvent = () => {
-    const eventToAttend = eventsAttending.find((event) => event._id === _id);
-    if (eventToAttend) {
-      // event already added
-    } else {
-      dispatch({
-        type: ADD_TO_MY_EVENTS,
-        event: { ...event }
-      })
-      idbPromise('attending-events', 'put', { ...event });
-    }
-  }
+    dispatch({
+      type: REMOVE_EVENT,
+      event: {...event},
+    });
+    idbPromise('attending-events', 'delete', {_id});
+  };
 
   const peopleAttending = () => {
     let people = '';
-    attending.forEach(element => {
-      people += `${element}, `
+    attending.forEach((element) => {
+      people += `${element}, `;
     });
     return people;
-  }
+  };
 
   return (
     <Card sx={{maxWidth: 700}}>
@@ -77,8 +75,10 @@ function EventCard(event) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={attendEvent}>Attend Event</Button>
-        <Typography sx={{ fontSize: 10 }} color="text.secondary">
+        <Button size="small" color="error" onClick={deleteEvent}>
+          Delete Event
+        </Button>
+        <Typography sx={{fontSize: 10}} color="text.secondary">
           {creation_date}
         </Typography>
       </CardActions>

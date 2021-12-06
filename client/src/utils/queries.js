@@ -52,4 +52,4 @@ export const GET_EVENTS_CREATED_BY_USER = gql`
       }
     }
   }
-`;
+  `;

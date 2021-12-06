@@ -108,16 +108,22 @@ const resolvers = {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const newEvent = await Event.create({
-          creator: user._id,
+          creator: Types.ObjectId(user._id),
           name,
           body,
           location,
           address,
           day,
         });
-        console.log(newEvent);
 
         if (!newEvent) return new Error('Failed to create event.');
+
+        const addToUser = await User.findOneAndUpdate(
+          { id: user._id },
+          { $push: { events: Types.ObjectId(newEvent._id) } }
+        );
+
+        if (!addToUser) return new Error('Failed to create event.');
 
         return newEvent;
       } catch (err) {

@@ -53,3 +53,23 @@ export const GET_EVENTS_CREATED_BY_USER = gql`
     }
   }
 `;
+
+export const GET_EVENT_BY_ID = gql`
+query event {
+  event {
+    _id
+    name
+    body
+    location
+    day
+    address
+    attending {
+      username
+    }
+    comments {
+      user
+      content
+    }
+  }
+}
+`

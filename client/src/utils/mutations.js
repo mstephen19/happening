@@ -46,3 +46,13 @@ export const CREATE_EVENT = gql`
     }
   }
 `;
+
+export const ADD_COMMENT = gql`
+mutation addComment(
+  $eventId: ID!
+  $content: String!
+  $user: ID!
+) {
+  addComment(eventId: $eventId, content: $content, user: $user)
+}
+`

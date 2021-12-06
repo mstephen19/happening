@@ -47,7 +47,7 @@ const resolvers = {
     },
     event: async (parent, {id}) => {
       try {
-        const event = await Event.findById(id).populate('attending');
+        const event = await Event.findById(id).populate('attending').populate('comments');
 
         if (!event) return new Error('Event not found.');
 
@@ -119,7 +119,6 @@ const resolvers = {
           address,
           day,
         });
-
         console.log(newEvent);
         if (!newEvent) return new Error('Failed to create event.');
 
@@ -133,14 +132,6 @@ const resolvers = {
             },
           }
         );
-
-        // const addToUser = await User.findOneAndUpdate(
-        //   { id: user._id },
-        //   {
-        //     $push: { events: [Types.ObjectId(newEvent._id)] },
-        //   }
-        // );
-
         console.log(addToUser);
         if (!addToUser.events.length)
           return new Error('Failed to create event.');
@@ -150,6 +141,17 @@ const resolvers = {
         console.log(err);
         return err;
       }
+    },
+    addComment: async (parent, { eventId, content }, { user }) => {
+      if (!user) {
+        return new AuthenticationError('You need to be logged in.');
+      };
+      return Event.findOneAndUpdate(
+        { _id: eventId },
+        {
+          $push: { comments: { content, user } },
+        },
+      )
     },
     deleteEvent: async (parent, args, {user}) => {
       if (!user)

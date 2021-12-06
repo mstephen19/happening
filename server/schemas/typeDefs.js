@@ -12,7 +12,14 @@ const typeDefs = gql`
     latitude: Float
     longitude: Float
     attending: [User]
+    comments: [Comment]
     day: Date
+  }
+
+  type Comment {
+    _id: ID
+    content: String
+    user: ID
   }
 
   scalar Date

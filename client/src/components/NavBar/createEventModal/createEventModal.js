@@ -95,7 +95,7 @@ const [startDate, setStartDate] = useState(new Date());
       </Box>
 
       <Box width={1} px={2} py={1}>
-        <Label htmlFor='address'>Event Address (Exact)</Label>
+        <Label htmlFor='address'>Event Street Address (Exact)</Label>
         <Input
           id='address'
           name='address'
@@ -105,7 +105,7 @@ const [startDate, setStartDate] = useState(new Date());
       </Box>
 
       <Box width={1} px={2} py={1}>
-        <Label htmlFor='location'>Event Location</Label>
+        <Label htmlFor='location'>Event City</Label>
         <GooglePlacesAutocomplete
           // apiKey='AIzaSyAbu8a2163MJhjkvN3MQwWmamvYJE_jKx8'
           apiKey='AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw'
@@ -130,7 +130,7 @@ const [startDate, setStartDate] = useState(new Date());
       </Box>
 
       <Box width={1} px={2} py={1}>
-        <Label htmlFor='date'>Event Address (Exact)</Label>
+        <Label htmlFor='date'>Event Date</Label>
         <DatePicker id='date' name='date' value={startDate} onChange={(date) => setStartDate(date)} />
       </Box>
 

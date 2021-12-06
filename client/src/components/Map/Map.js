@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import debounce from '../../utils/debounce';
 import { useSelector } from 'react-redux';
 import { useLazyQuery } from '@apollo/client';
@@ -8,8 +8,12 @@ import Loading from '../Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './Sidebar/Sidebar';
+import EventCard from './EventCard';
+import EventPopup from './EventPopup';
+import { Link } from 'react-router-dom';
 
 export default function Map() {
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const state = useSelector((store) => store);
   const [makeQuery, { loading, data, error }] = useLazyQuery(
     GET_EVENTS_BY_LOCATION,
@@ -55,7 +59,7 @@ export default function Map() {
     window.addEventListener('resize', handleResize);
   });
 
-  console.log(data?.events);
+  // console.log(data?.events);
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -76,6 +80,10 @@ export default function Map() {
                 latitude={event.latitude}
                 longitude={event.longitude}
                 offsetTop={-(viewport.zoom * 5) / 2}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedEvent(event);
+                }}
               >
                 <FontAwesomeIcon
                   icon={faMapMarkerAlt}
@@ -85,13 +93,31 @@ export default function Map() {
               </Marker>
             );
           })}
+
+        {selectedEvent && (
+          <Popup
+            latitude={selectedEvent.latitude}
+            longitude={selectedEvent.longitude}
+            onClose={() => setSelectedEvent(null)}
+            offsetTop={-(viewport.zoom * 5) / 2}
+          >
+            <EventPopup event={selectedEvent}/>
+          </Popup>
+        )}
       </ReactMapGL>
       <Sidebar text={`Results in ${state.search.split(',').shift()}`}>
-        <ul>
-          {data?.events.map((event) => {
-            return <li>{event.name}</li>;
-          })}
-        </ul>
+        {data?.events.map((event) => {
+          return (
+            <Link to={`/event/${event._id}`}>
+              <EventCard
+                key={event._id}
+                title={event.name}
+                creator={event?.creator?.username}
+                body={`${event.body.substring(0, 100)}...`}
+              />
+            </Link>
+          );
+        })}
       </Sidebar>
     </div>
   );

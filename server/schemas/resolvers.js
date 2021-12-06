@@ -14,8 +14,10 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (!context.user) return new AuthenticationError('Not logged in!');
       try {
-        const me = await User.findOne({_id: context.user._id}).populate('events');
-
+        const me = await User.findOne({_id: context.user._id}).populate(
+          'events'
+        );
+        console.log(me);
         if (!me) return new Error('User not found in database.');
 
         return me;
@@ -69,6 +71,14 @@ const resolvers = {
         return err;
       }
     },
+    eventsByUser: async (parent, args, {user}) => {
+      try {
+        const events = await Event.find({ creator: user._id });
+        return events;
+      } catch (error) {
+        return error;
+      }
+    }
   },
   Mutation: {
     newUser: async (parent, args, context) => {
@@ -110,10 +120,11 @@ const resolvers = {
           day,
         });
 
+        console.log(newEvent);
         if (!newEvent) return new Error('Failed to create event.');
 
         const addToUser = await User.findOneAndUpdate(
-          { id: user._id },
+          {id: user._id},
           {
             $push: {
               events: {
@@ -131,7 +142,8 @@ const resolvers = {
         // );
 
         console.log(addToUser);
-        if (!addToUser.events.length) return new Error('Failed to create event.');
+        if (!addToUser.events.length)
+          return new Error('Failed to create event.');
 
         return newEvent;
       } catch (err) {

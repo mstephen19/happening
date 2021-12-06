@@ -39,8 +39,8 @@ export const QUERY_USER = gql`
 `;
 
 export const GET_EVENTS_CREATED_BY_USER = gql`
-  query userEvents($id: ID!){
-    userEvents(id: $id){
+  query eventsByUser {
+    eventsByUser {
       _id
       name
       body

@@ -58,7 +58,9 @@ const resolvers = {
       try {
         // const regex = new RegExp(location, i);
 
-        const events = await Event.find({ location }).populate('attending');
+        const events = await Event.find({ location })
+          .populate('attending')
+          .populate('creator');
 
         if (!events) return new Error('Unable to find events');
 
@@ -96,7 +98,11 @@ const resolvers = {
         return err;
       }
     },
-    newEvent: async (parent, { name, body, location, address, day }, { user }) => {
+    newEvent: async (
+      parent,
+      { name, body, location, address, day },
+      { user }
+    ) => {
       if (!user) return new AuthenticationError('Must be logged in!');
       try {
         const newEvent = await Event.create({

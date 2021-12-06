@@ -11,7 +11,6 @@ import Sidebar from './Sidebar/Sidebar';
 
 export default function Map() {
   const state = useSelector((store) => store);
-  // console.log(state);
   const [makeQuery, { loading, data, error }] = useLazyQuery(
     GET_EVENTS_BY_LOCATION,
     {
@@ -56,6 +55,8 @@ export default function Map() {
     window.addEventListener('resize', handleResize);
   });
 
+  console.log(data?.events);
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       {loading && <Loading />}
@@ -85,10 +86,12 @@ export default function Map() {
             );
           })}
       </ReactMapGL>
-      <Sidebar>
-        <div style={{ marginTop: '100px' }}>
-          <h1>Test</h1>
-        </div>
+      <Sidebar text={`Results in ${state.search.split(',').shift()}`}>
+        <ul>
+          {data?.events.map((event) => {
+            return <li>{event.name}</li>;
+          })}
+        </ul>
       </Sidebar>
     </div>
   );

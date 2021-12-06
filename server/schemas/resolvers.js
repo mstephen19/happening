@@ -67,6 +67,8 @@ const resolvers = {
         return err;
       }
     },
+
+    userEvents: async (parent, args)
   },
   Mutation: {
     newUser: async (parent, args, context) => {

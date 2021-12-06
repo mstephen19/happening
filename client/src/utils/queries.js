@@ -22,13 +22,13 @@ export const QUERY_USER = gql`
 `;
 
 export const GET_EVENTS_CREATED_BY_USER = gql`
-  query events($user: ID!){
-    events(user: $creator){
+  query userEvents($id: ID!){
+    userEvents(id: $id){
       _id
-      creator
       name
       body
       location
+      day
       address
     }
   }

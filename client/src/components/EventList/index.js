@@ -13,10 +13,10 @@ function EventList() {
   const dispatch = useDispatch();
 
   const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER, {
-    variables: {user: state.user},
+    variables: {user: state?.user._id},
   });
   
-  console.log(data);
+  console.log(state);
   useEffect(() => {
     if (data) {
       dispatch({
@@ -39,7 +39,7 @@ function EventList() {
   return (
     <Box sx={{mt: 1}}>
       <h2>My Events:</h2>
-      {state.events.length ? (
+      {state?.user?.events.length ? (
         <Box display="flex" flexDirection="column" bgcolor="background.paper">
           {state.events.map((event) => (
             <EventCard key={event._id} event={event} />

@@ -9,12 +9,8 @@ import {
 
 import Auth from '../auth'
 
-const initialState = {
-  events: [],
-  attendingEvents: [],
-};
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state, action) {
   switch (action.type) {
     case SET_LOCATION: {
       return {
@@ -24,10 +20,11 @@ export default function reducer(state = initialState, action) {
     }
 
     case SET_USER: {
-      return {
+      console.log(action.user)
+      return ({
         ...state,
         user: action.user,
-      };
+      });
     }
     
     case ADD_TO_MY_EVENTS:

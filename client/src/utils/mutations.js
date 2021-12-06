@@ -32,7 +32,7 @@ export const CREATE_EVENT = gql`
     $body: String!
     $location: String!
     $address: String!
-    $day: String!
+    $day: Date!
   ) {
     newEvent(name: $name, body: $body, location: $location, address: $address, day: $day) {
       _id

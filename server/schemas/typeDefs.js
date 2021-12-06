@@ -12,7 +12,7 @@ const typeDefs = gql`
     latitude: Float
     longitude: Float
     attending: [User]
-    day: String
+    day: Date
   }
 
   scalar Date
@@ -53,7 +53,7 @@ const typeDefs = gql`
       body: String!
       location: String!
       address: String!
-      day: String!
+      day: Date!
     ): Event
     deleteEvent(id: ID!): DeletedCount
     attendEvent(id: ID!): Event

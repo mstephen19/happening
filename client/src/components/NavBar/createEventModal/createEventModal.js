@@ -57,7 +57,7 @@ const [startDate, setStartDate] = useState(new Date());
           address: `${formValues.address} ${formValues.location}`,
           location: formValues.location,
           body: formValues.body,
-          day: startDate,
+          day: new Date(startDate),
         },
       });
       console.log(data);

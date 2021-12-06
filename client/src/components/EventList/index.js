@@ -12,7 +12,10 @@ function EventList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER);
+  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER, {
+    variables: {user: state.user},
+  });
+  
   console.log(data);
   useEffect(() => {
     if (data) {

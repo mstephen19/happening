@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl/dist/';
 
 import debounce from '../../utils/debounce';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import EventCard from './EventCard';
 import EventPopup from './EventPopup';
 import { Link } from 'react-router-dom';
 
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 // eslint-disable-next-line import/no-webpack-loader-syntax
 // mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 

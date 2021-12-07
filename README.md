@@ -2,13 +2,16 @@
 
 ## Table of Contents
 
-- [Summary](#Summary)
-- [Wireframe](#Wireframe)
-- [Code](#Code-Snippet)
-- [User-Story](#User-Story)
-- [Technologies](#Technologies)
-- [Authors](#Authors)
-- [Acknowledgements](#Acknowledgements)
+- [Happening - Local Event Creator and Search](#happening---local-event-creator-and-search)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Wireframe](#wireframe)
+  - [Code Snippet](#code-snippet)
+  - [Steps](#steps)
+  - [User Story](#user-story)
+  - [Technologies Used](#technologies-used)
+  - [Contributors](#contributors)
+  - [Acknowledgments](#acknowledgments)
 
 ## Summary
 
@@ -67,8 +70,10 @@ The purpose of this site is to create a forum that users can log into and see po
 * [Link to Github](https://github.com/alonzofroman)
 * [Link to LinkedIn](https://www.linkedin.com/)
 
-- **Isaac Hernandez**
+- **Isaac Cortes Hernandez**
 
+* [Link to Github](https://github.com/icortes)
+* [Link to LinkedIn](https://www.linkedin.com/in/cortes-isaac)
 
 
 - **Matt Stephens**
@@ -76,8 +81,6 @@ The purpose of this site is to create a forum that users can log into and see po
 * [Link to Portfolio Site](https://mstephen19.github.io)
 * [Link to Github](https://github.com/mstephen19)
 * [Link to LinkedIn](https://www.linkedin.com/in/mstephen19/)
-
-- **Leonardo Gutierrez**
 
 
 ## Acknowledgments

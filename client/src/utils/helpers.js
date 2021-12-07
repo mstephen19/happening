@@ -19,7 +19,7 @@ export function idbPromise(storeName, method, object) {
     let db, tx, store;
     request.onupgradeneeded = function (e) {
       const db = request.result;
-      db.createObjectStore('attending-events', {keyPath: '_id'});
+      db.createObjectStore('created-events', {keyPath: '_id'});
     };
     request.onerror = function (e) {
       console.log('Error');

@@ -12,21 +12,19 @@ function EventList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [makeQuery, { loading, data }] = useLazyQuery(GET_EVENTS_CREATED_BY_USER);
-  
+  const [makeQuery, {loading, data}] = useLazyQuery(GET_EVENTS_CREATED_BY_USER);
 
   useEffect(() => {
     console.log(state.events);
-    
-      (async () => {
-        await makeQuery();
-        await console.log(data);
-        dispatch({
-          type: UPDATE_EVENTS,
-          events: { data },
-        });
-      })();
-    
+
+    (async () => {
+      await makeQuery();
+      await console.log(data);
+      dispatch({
+        type: UPDATE_EVENTS,
+        events: {data},
+      });
+    })();
   }, [state.user]);
 
   return (

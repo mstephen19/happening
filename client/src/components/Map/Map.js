@@ -114,7 +114,7 @@ export default function Map() {
       <Sidebar text={`Results in ${state.search.split(',').shift()}`}>
         {data?.events.map((event) => {
           return (
-            <Link to={`/event/${event._id}`}>
+            <Link to={`/event/${event._id}`} style={{textDecoration: "none"}}>
               <EventCard
                 key={event._id}
                 title={event.name}

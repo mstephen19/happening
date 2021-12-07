@@ -142,7 +142,8 @@ const resolvers = {
       console.log(updatedEvent);
       return updatedEvent;
     },
-    deleteEvent: async (parent, args, {user}) => {
+    deleteEvent: async (parent, args, { user }) => {
+      console.log(args);
       if (!user)
         return new AuthenticationError("You shouldn't be able to do this...");
 

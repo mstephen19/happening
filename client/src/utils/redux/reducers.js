@@ -20,7 +20,6 @@ export default function reducer(state, action) {
     }
 
     case SET_USER: {
-      console.log(action.user)
       return ({
         ...state,
         user: action.user,
@@ -36,7 +35,7 @@ export default function reducer(state, action) {
     case UPDATE_EVENTS:
       return {
         ...state,
-        events: [...action.payload.events],
+        events: [...action.events],
       };
 
     case REMOVE_EVENT:

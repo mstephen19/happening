@@ -62,10 +62,8 @@ mutation addComment(
 
 export const DELETE_EVENT = gql`
 mutation deleteEvent($id: ID!){
-  deleteEvent(id: $_id){
-    _id
-    name
-    creator
+  deleteEvent(id: $id){
+    deletedCount
   }
 }
 `;

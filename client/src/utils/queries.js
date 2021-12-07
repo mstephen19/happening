@@ -55,8 +55,8 @@ export const GET_EVENTS_CREATED_BY_USER = gql`
 `;
 
 export const GET_EVENT_BY_ID = gql`
-query event {
-  event {
+query event($eventId: ID!) {
+  event(eventId: $eventId) {
     _id
     name
     body

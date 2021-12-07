@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import NavBarContainer from './components/NavBar/NavBarContainer';
 import './styles/app.css';
+import SingleEvent from './pages/singleEvent';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -48,7 +49,7 @@ export default function App() {
           <Switch>
             <Route exact path='/' component={Main} />
             <Route exact path='/dashboard' component={Dashboard} />
-            {/* <Route exact path='/event/:id' component={ALONZOPUTITHERE}/> */}
+            <Route exact path='/event/:id' component={SingleEvent}/>
             <Route component={NotFound} />
           </Switch>
         </Router>

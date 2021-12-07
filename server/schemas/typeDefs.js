@@ -48,7 +48,7 @@ const typeDefs = gql`
     users: [User]!
     user(username: String!): User
     me: User
-    event: Event
+    event(eventId: ID!): Event
     events(location: String!): [Event]
     userEvents(id : ID!): [Event]
     eventsByUser: [Event]
@@ -64,6 +64,7 @@ const typeDefs = gql`
       address: String!
       day: Date!
     ): Event
+    addComment(content: String, eventId: ID): Event
     deleteEvent(id: ID!): DeletedCount
     attendEvent(id: ID!): Event
     unAttendEvent(id: ID!): Event

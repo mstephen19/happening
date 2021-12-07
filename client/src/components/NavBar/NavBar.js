@@ -49,10 +49,15 @@ export default function NavBar({
           <Button className='navBtn' mr={2} onClick={onCreateAccount}>
             Create Account
           </Button>
+          
         </>
+        
       )}
       <Icon onClick={handleClick} animated={dropdown ? true : false} />
       <DropDown position={dropdown ? 'down' : 'up'} onClick={handleClick} />
+      <h2 style={{color: 'white'}}>Happening</h2>
+      
+
     </Box>
   );
 }

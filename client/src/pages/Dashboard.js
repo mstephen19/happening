@@ -1,5 +1,5 @@
 import {useQuery} from '@apollo/client';
-import {Paper} from '@mui/material';
+import {Grid, Paper, paperClasses} from '@mui/material';
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import EventList from '../components/EventList';
@@ -10,10 +10,12 @@ export default function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  
-
   useEffect(() => {
     const {email, username, _id} = Auth.getProfile().data;
+    if (!email) {
+      alert('You must be logged in to view this page');
+      return;
+    }
     dispatch({
       type: SET_USER,
       user: {_id, username, email},
@@ -22,5 +24,17 @@ export default function Dashboard() {
 
   // console.log(state);
 
-  return <EventList />;
+  return (
+    <Paper elevation={4} variant="outlined">
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <EventList />
+      </Grid>
+    </Paper>
+  );
 }

@@ -23,7 +23,38 @@ The purpose of this site is to create a forum that users can log into and see po
 ![Image](./wireframe/wireframe4.png)
 
 ## Code Snippet
+In order to get our map to be handled visually within the rest of the page, useEffect was used to handle screen sizes and maintain a viewable size. Latitude and longitude were used to set the viewport and handle the map's viewing angle, which is set by searching cities in the search bar. 
 
+```Javascript
+useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      await makeQuery();
+      if (isMounted) {
+        setViewport((prev) => ({
+          ...prev,
+          latitude: state.latitude,
+          longitude: state.longitude,
+        }));
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, [state, data]);
+
+  useEffect(() => {
+    const handleResize = debounce(() => {
+      setViewport((prev) => ({
+        ...prev,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }));
+    }, 500);
+    window.addEventListener('resize', handleResize);
+  });
+
+```
 
 
 ## Steps

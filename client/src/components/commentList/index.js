@@ -16,8 +16,9 @@ export default function CommentList({ comments = [] }) {
         {comments.map((comment) => (
             
           <div className='singleComment' key={comment._id}>
+            <p className='commentHeader'><b>Posted By:</b> {comment.user.username}</p>
             <p>{comment.content}</p>
-            <p>Posted By: {comment.user.username}</p>
+            
           </div>
         ))}
       </div>

@@ -28,6 +28,7 @@ function EventList() {
   }, [state.user]);
 
   return (
+    
     <Box sx={{mt: 1}}>
       <h2>My Events:</h2>
       {data?.eventsByUser ? (

@@ -47,6 +47,19 @@ export const CREATE_EVENT = gql`
   }
 `;
 
+
+export const ADD_COMMENT = gql`
+mutation addComment(
+  $eventId: ID!
+  $content: String!
+) {
+  addComment(eventId: $eventId, content: $content) {
+    _id
+    # comments
+  }
+}
+`
+
 export const DELETE_EVENT = gql`
 mutation deleteEvent($id: ID!){
   deleteEvent(id: $_id){
@@ -56,3 +69,4 @@ mutation deleteEvent($id: ID!){
   }
 }
 `;
+

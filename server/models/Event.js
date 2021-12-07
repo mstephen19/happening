@@ -42,6 +42,18 @@ const EventSchema = new Schema({
       ref: 'User',
     },
   ],
+  comments: [
+    {
+      content: {
+        type: String,
+        required: true,
+      },
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    }
+  ]
 });
 
 EventSchema.pre('save', async function (next) {

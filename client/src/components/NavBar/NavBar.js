@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button } from 'rebass';
 import '../../styles/navbar.css';
+import Icon from './Icon';
+import DropDown from './Dropdown';
 
 export default function NavBar({
   loggedIn,
   onLogOut,
   onLogIn,
   onCreateAccount,
-  onEventModal
+  onEventModal,
 }) {
+  const [dropdown, toggleDropdown] = useState(false);
+
+  const handleClick = () => {
+    toggleDropdown(!dropdown);
+    console.log(dropdown);
+  };
   return (
     <Box
       style={{
@@ -43,6 +51,8 @@ export default function NavBar({
           </Button>
         </>
       )}
+      <Icon onClick={handleClick} animated={dropdown ? true : false} />
+      <DropDown position={dropdown ? 'down' : 'up'} onClick={handleClick} />
     </Box>
   );
 }

@@ -1,0 +1,55 @@
+.bar {
+  transition: all 0.3s linear;
+}
+
+.middle-bar-animated {
+  animation-name: transformMiddle;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes transformMiddle {
+  25%,
+  50% {
+    background: white;
+  }
+  75%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.top-bar-animated {
+  animation-name: transformTop;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes transformTop {
+  25%,
+  50% {
+    transform: translate(0, 11px);
+  }
+  100% {
+    transform: translate(0, 11px) rotate(-45deg);
+  }
+}
+
+.bottom-bar-animated {
+  animation-name: transformBottom;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-out; /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+  animation-fill-mode: forwards; /* or: backwards, both, none */
+}
+
+@keyframes transformBottom {
+  25%,
+  50% {
+    transform: translate(0, -11px);
+  }
+  100% {
+    transform: translate(0, -11px) rotate(45deg);
+  }
+}

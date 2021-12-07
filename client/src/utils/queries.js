@@ -52,6 +52,7 @@ export const GET_EVENTS_CREATED_BY_USER = gql`
       }
     }
   }
+
 `;
 
 export const GET_EVENT_BY_ID = gql`
@@ -72,15 +73,6 @@ query event($eventId: ID!) {
       }
       content
     }
-  }
-}
-`;
-
-export const GET_USER_BY_ID = gql`
-query userById($userId: ID) {
-  user(userId: $userId) {
-    _id
-    username
   }
 }
 `;

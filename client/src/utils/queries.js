@@ -67,9 +67,21 @@ query event($eventId: ID!) {
       username
     }
     comments {
-      user
+      user {
+        username
+      }
       content
     }
   }
 }
-`
+`;
+
+export const GET_USER_BY_ID = gql`
+query userById($userId: ID) {
+  user(userId: $userId) {
+    _id
+    username
+  }
+}
+`;
+

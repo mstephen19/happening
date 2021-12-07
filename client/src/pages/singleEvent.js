@@ -5,14 +5,13 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_EVENT_BY_ID } from '../utils/queries';
 import CommentList from '../components/commentList/index';
 import CommentForm from '../components/commentForm/index';
-
+import '../styles/singleEvent.css';
 
 export default function SingleEvent() {
     const { id } = useParams();
     const { loading, data } = useQuery(GET_EVENT_BY_ID, {
         variables: { eventId: id },
     });
-
     const event = data?.event || {};
 
     if (loading) {
@@ -22,9 +21,9 @@ export default function SingleEvent() {
         <div className="singleEvent">
             <div className="eventInfo">
                 <h3>{event.name}</h3>
-                <p>{event.address} {event.location}</p>
-                <p>{event.day}</p>
-                <p>{event.body}</p>
+                <p>Event Address: {event.address}</p>
+                <p>Date of event: {event.day}</p>
+                <p> Description: {event.body}</p>
             </div>
             <CommentList comments={event.comments}/>
             <CommentForm />

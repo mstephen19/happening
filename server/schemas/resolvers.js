@@ -10,6 +10,14 @@ const {Event, User} = require('../models');
 const {signToken} = require('../utils/auth');
 
 const resolvers = {
+  Comment: {
+    user: async(parent, args, context) => {
+      console.log(parent.user);
+      const userObj = await User.findOne({_id: parent.user});
+      console.log(userObj);
+      return userObj;
+    }
+  },
   Query: {
     me: async (parent, args, context) => {
       if (!context.user) return new AuthenticationError('Not logged in!');
@@ -32,6 +40,17 @@ const resolvers = {
         if (!theUser) return new Error('User with this username not found.');
 
         return theUser;
+      } catch (err) {
+        return err;
+      }
+    },
+    userById: async (parent, {userId}) => {
+      try {
+        const user = await User.findOne({userId});
+
+        if (!user) return new Error('User not found');
+
+        return user;
       } catch (err) {
         return err;
       }

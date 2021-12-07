@@ -32,7 +32,7 @@ export default function CommentForm() {
       });
       console.log(data);
       setFormValues({
-        content: "",
+        content: '',
       });
     } catch (err) {
       console.log(err);
@@ -40,7 +40,7 @@ export default function CommentForm() {
   };
 
   return (
-    <Box as='form' onSubmit={handleFormSubmit} className='commentForm'>
+    <Box as='form' onSubmit={handleFormSubmit} className='commentForm' px={2} py={2}>
       <Box>
         <Label htmlFor='content'>Comment: </Label>
         <Input onChange={handleFormChange} id='content' name='content'></Input>

@@ -68,7 +68,9 @@ query event($eventId: ID!) {
       username
     }
     comments {
-      user
+      user {
+        username
+      }
       content
     }
   }

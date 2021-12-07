@@ -19,7 +19,7 @@ const typeDefs = gql`
   type Comment {
     _id: ID
     content: String
-    user: ID
+    user: User
   }
 
   scalar Date
@@ -47,6 +47,7 @@ const typeDefs = gql`
   type Query {
     users: [User]!
     user(username: String!): User
+    userById(userId: ID): User
     me: User
     event(eventId: ID!): Event
     events(location: String!): [Event]

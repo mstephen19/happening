@@ -53,36 +53,38 @@ const EventCard = ({event}) => {
   };
 
   return (
-    <Card sx={{maxWidth: 700}}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{bgcolor: red[500]}} arial-label="event">
-            {creator}
-          </Avatar>
-        }
-        title={name}
-        subheader={location}
-      />
-      <CardContent>
-        <Typography sx={{fontSize: 14}} color="text.primary">
-          {body}
-        </Typography>
-        <Typography sx={{fontSize: 12}} color="text.secondary">
-          {address}
-        </Typography>
-        <Typography sx={{fontSize: 12}} color="text.secondary">
-          {peopleAttending()}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="error" onClick={deleteEvent}>
-          Delete Event
-        </Button>
-        <Typography sx={{fontSize: 10}} color="text.secondary">
-          {creation_date}
-        </Typography>
-      </CardActions>
-    </Card>
+    <Link to={`/event/${_id}`} style={{textDecoration: 'none'}}>
+      <Card sx={{maxWidth: 700}}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{bgcolor: red[500]}} arial-label="event">
+              {state.user.username.substring(0,1).toUpperCase()}
+            </Avatar>
+          }
+          title={name}
+          subheader={location}
+        />
+        <CardContent>
+          <Typography sx={{fontSize: 14}} color="text.primary">
+            {body}
+          </Typography>
+          <Typography sx={{fontSize: 12}} color="text.secondary">
+            {address}
+          </Typography>
+          <Typography sx={{fontSize: 12}} color="text.secondary">
+            {peopleAttending()}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="error" onClick={deleteEvent}>
+            Delete Event
+          </Button>
+          <Typography sx={{fontSize: 10}} color="text.secondary">
+            {creation_date}
+          </Typography>
+        </CardActions>
+      </Card>
+    </Link>
   );
 };
 

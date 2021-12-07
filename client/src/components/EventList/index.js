@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import EventCard from '../EventCard';
 import {useLazyQuery, useQuery} from '@apollo/client';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,40 +12,28 @@ function EventList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const {loading, data} = useQuery(GET_EVENTS_CREATED_BY_USER);
-  console.log(data);
+  const [makeQuery, {loading, data}] = useLazyQuery(GET_EVENTS_CREATED_BY_USER);
+
   useEffect(() => {
-    if (state.user) {
-      console.log(state.user._id);
-    }
-    if (data) {
-      console.log(data.me);
-      
+    console.log(state.events);
+
+    (async () => {
+      await makeQuery();
+      await console.log(data);
       dispatch({
         type: UPDATE_EVENTS,
-        events: data.events,
+        events: {data},
       });
-      data.events.forEach((event) => {
-        idbPromise('attending-events', 'put', event);
-      });
-    } else if (!loading) {
-      idbPromise('attending-events', 'get').then((events) => {
-        dispatch({
-          type: UPDATE_EVENTS,
-          events: events,
-        });
-      });
-    }
-  }, [state]);
+    })();
+  }, [state.user]);
 
-  
   return (
     <Box sx={{mt: 1}}>
       <h2>My Events:</h2>
       {data?.eventsByUser ? (
         <Box display="flex" flexDirection="column" bgcolor="background.paper">
           {data.eventsByUser.map((event) => (
-            <EventCard key={event._id} event={event}/>
+            <EventCard key={event._id} event={event} />
           ))}
         </Box>
       ) : (

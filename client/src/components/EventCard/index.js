@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -11,15 +11,16 @@ import {
   CardActions,
 } from '@mui/material';
 import {red} from '@mui/material/colors';
-import { REMOVE_EVENT} from '../../utils/redux/actions';
+import {REMOVE_EVENT} from '../../utils/redux/actions';
 import {idbPromise} from '../../utils/helpers';
 import {useMutation} from '@apollo/client';
 import {DELETE_EVENT} from '../../utils/mutations';
 
-function EventCard(event) {
+const EventCard = ({event}) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  console.log(state);
   const [eventToDelete, {error, loading, data}] = useMutation(DELETE_EVENT);
 
   const {
@@ -34,18 +35,17 @@ function EventCard(event) {
   } = event;
 
   const deleteEvent = async () => {
-    
-   const eventRemoved = await eventToDelete({ id: _id });
-
+    const {data} = await eventToDelete({variables: {id: _id}});
+    console.log(state);
     dispatch({
       type: REMOVE_EVENT,
       event: {...event},
     });
-    idbPromise('attending-events', 'delete', {_id});
   };
 
   const peopleAttending = () => {
     let people = '';
+    if (!attending.length) return people;
     attending.forEach((element) => {
       people += `${element}, `;
     });
@@ -71,7 +71,7 @@ function EventCard(event) {
           {address}
         </Typography>
         <Typography sx={{fontSize: 12}} color="text.secondary">
-          {peopleAttending}
+          {peopleAttending()}
         </Typography>
       </CardContent>
       <CardActions>
@@ -84,6 +84,6 @@ function EventCard(event) {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default EventCard;

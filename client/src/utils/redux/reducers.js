@@ -7,8 +7,7 @@ import {
   SET_USER,
 } from './actions';
 
-import Auth from '../auth'
-
+import Auth from '../auth';
 
 export default function reducer(state, action) {
   switch (action.type) {
@@ -20,13 +19,12 @@ export default function reducer(state, action) {
     }
 
     case SET_USER: {
-      console.log(action.user)
-      return ({
+      return {
         ...state,
         user: action.user,
-      });
+      };
     }
-    
+
     case ADD_TO_MY_EVENTS:
       return {
         ...state,
@@ -36,15 +34,17 @@ export default function reducer(state, action) {
     case UPDATE_EVENTS:
       return {
         ...state,
-        events: [...action.payload.events],
+        events: [...action.events],
       };
 
-    case REMOVE_EVENT:
+    case REMOVE_EVENT: {
+      console.log(state);
       let newState = state.events.filter((event) => {
         return event._id !== action._id;
       });
 
       return {...state, events: newState};
+    }
 
     case SET_LON_LAT: {
       return {

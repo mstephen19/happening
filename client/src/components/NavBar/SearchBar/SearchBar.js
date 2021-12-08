@@ -9,7 +9,7 @@ export default function SearchBar() {
   const dispatch = useDispatch();
 
   return (
-    <div style={{ zIndex: '99999', width: 'calc(100vw - 450px)' }}>
+    <div style={{ zIndex: '99999', width: 'calc(70vw)' }}>
       <GooglePlacesAutocomplete
         // apiKey='AIzaSyAbu8a2163MJhjkvN3MQwWmamvYJE_jKx8'
         apiKey='AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw'

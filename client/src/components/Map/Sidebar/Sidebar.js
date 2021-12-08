@@ -4,10 +4,10 @@ import SidebarList from './SidebarList';
 
 export default function Sidebar({ text, children }) {
   return (
-    <div
+    <div className='sideBar'
       style={{
         position: 'absolute',
-        width: '450px',
+        width: '25vw',
         height: '100%',
         minHeight: '400px',
         right: '0',

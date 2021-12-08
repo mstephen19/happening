@@ -1,0 +1,13 @@
+@media screen and (max-width: 600px) {
+    .eventCard {
+        contain: content;
+        width: 100%;
+    }
+
+    .cardText {
+        width: 80%;
+        font-size: smaller;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
